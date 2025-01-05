@@ -14,7 +14,7 @@ const SideBar = () => {
       <hr className="border-gray-700" />
       <ul className="flex flex-col items-center gap-1">
         {routes.map(({ path, name, Icon }) => (
-          <li className="flex items-center hover:bg-gray-600 rounded-md p-2 w-full h-8 text-md font-medium py-4 gap-1">
+          <li className="flex items-center hover:bg-gray-700 rounded-lg p-2 w-full h-10 text-md font-semibold py-4 gap-1 cursor-pointer">
             <Icon />
             <Link to={path}>{name}</Link>
           </li>
