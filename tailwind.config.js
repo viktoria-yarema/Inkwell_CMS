@@ -10,55 +10,47 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
+  			background: 'rgba(var(--background), <alpha-value>)',
+  			foreground: 'rgba(var(--foreground), <alpha-value>)',
   			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
+  				DEFAULT: 'rgba(var(--card), <alpha-value>)',
+  				foreground: 'rgba(var(--card-foreground), <alpha-value>)'
   			},
   			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
+  				DEFAULT: 'rgba(var(--popover), <alpha-value>)',
+  				foreground: 'rgba(var(--popover-foreground), <alpha-value>)'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
+  				DEFAULT: 'rgba(var(--primary), <alpha-value>)',
+  				foreground: 'rgba(var(--primary-foreground), <alpha-value>)'
   			},
   			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
+  				DEFAULT: 'rgba(var(--secondary), <alpha-value>)',
+  				foreground: 'rgba(var(--secondary-foreground), <alpha-value>)'
   			},
   			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
+  				DEFAULT: 'rgba(var(--muted), <alpha-value>)',
+  				foreground: 'rgba(var(--muted-foreground), <alpha-value>)'
   			},
   			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
+  				DEFAULT: 'rgba(var(--accent), <alpha-value>)',
+  				foreground: 'rgba(var(--accent-foreground), <alpha-value>)'
   			},
   			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
+  				DEFAULT: 'rgba(var(--destructive), <alpha-value>)',
+  				foreground: 'rgba(var(--destructive-foreground), <alpha-value>)'
   			},
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			},
+  			border: 'rgba(var(--border), <alpha-value>)',
+  			input: 'rgba(var(--input), <alpha-value>)',	
   			sidebar: {
-  				DEFAULT: 'hsl(var(--sidebar-background))',
-  				foreground: 'hsl(var(--sidebar-foreground))',
-  				primary: 'hsl(var(--sidebar-primary))',
-  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-  				accent: 'hsl(var(--sidebar-accent))',
-  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-  				border: 'hsl(var(--sidebar-border))',
-  				ring: 'hsl(var(--sidebar-ring))'
+  				DEFAULT: 'rgba(var(--sidebar-background), <alpha-value>)',
+  				foreground: 'rgba(var(--sidebar-foreground), <alpha-value>)',
+  				primary: 'rgba(var(--sidebar-primary), <alpha-value>)',
+  				'primary-foreground': 'rgba(var(--sidebar-primary-foreground), <alpha-value>)',
+  				accent: 'rgba(var(--sidebar-accent), <alpha-value>)',
+  				'accent-foreground': 'rgba(var(--sidebar-accent-foreground), <alpha-value>)',
+  				border: 'rgba(var(--sidebar-border), <alpha-value>)',
+  				ring: 'rgba(var(--sidebar-ring), <alpha-value>)'
   			}
   		}
   	}
