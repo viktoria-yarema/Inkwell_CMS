@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useLocation } from "react-router-dom";
-import { routes } from "@/app/routes/routing";
+import { routes } from "@/shared/routes/routing";
 
 const PageHeader: FC = () => {
   const { pathname } = useLocation();

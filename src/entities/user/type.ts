@@ -7,10 +7,4 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   avatarUrl?: string;
-  role: UserRole;
 };
-
-export enum UserRole {
-  ADMIN = "Admin",
-  USER = "User",
-}

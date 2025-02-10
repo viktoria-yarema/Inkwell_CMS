@@ -10,7 +10,7 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="flex flex-col gap-4 h-screen bg-sidebar-primary w-[242px] text-white">
+    <aside className="flex flex-col gap-4 h-screen bg-sidebar-primary text-white">
       <div className="flex items-end gap-2 px-4 pt-4">
         <div className="flex items-center justify-center">
           <LogoIcon color="#fff" width={28} height={28} />

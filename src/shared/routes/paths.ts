@@ -1,0 +1,3 @@
+export const ARTICLES_PATH = "/articles";
+export const LOGIN_PATH = "/login";
+export const HOME_PATH = "/";

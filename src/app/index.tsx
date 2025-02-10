@@ -1,13 +1,24 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import PrivateLayout from "./layouts/PrivateLayout";
 import { FC, Suspense } from "react";
-import { routes } from "./routes/routing";
-import { LoginPage } from "./layouts/Login";
+import { routes } from "../shared/routes/routing";
+import { LoginPage } from "../modules/auth/LoginPage";
+import { ARTICLES_PATH, HOME_PATH, LOGIN_PATH } from "../shared/routes/paths";
+import ReactQueryProvider from "@/shared/providers/ReactQueryProvider";
+import PublicLayout from "./layouts/PublicLayout";
 
 const App: FC = () => {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: HOME_PATH,
+      loader: async () => redirect("/article"),
+    },
+    {
+      path: ARTICLES_PATH,
       element: <PrivateLayout />,
       children: routes.map(({ path, Component }) => ({
         path,
@@ -15,15 +26,21 @@ const App: FC = () => {
       })),
     },
     {
-      path: "/login",
-      element: <LoginPage />,
+      path: LOGIN_PATH,
+      element: (
+        <PublicLayout>
+          <LoginPage />
+        </PublicLayout>
+      ),
     },
   ]);
 
   return (
-    <Suspense>
-      <RouterProvider router={router} />
-    </Suspense>
+    <ReactQueryProvider>
+      <Suspense>
+        <RouterProvider router={router} />
+      </Suspense>
+    </ReactQueryProvider>
   );
 };
 

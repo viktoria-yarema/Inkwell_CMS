@@ -12,6 +12,6 @@ export type Article = {
 };
 
 export enum ArticleStatus {
-  DRAFT = "Draft",
-  PUBLISHED = "Published",
+  DRAFT = "draft",
+  PUBLISHED = "published",
 }

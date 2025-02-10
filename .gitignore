@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .vscode
+.env.*
+.env
+
+# Specific JSON file
+.inkwell-447220-5492cacfc29b.json
