@@ -1,15 +1,11 @@
 import { FC } from "react";
 import { IconProps } from "../../types/icon";
 
-const LogoIcon: FC<IconProps> = ({
-  width = 45,
-  height = 48,
-  color = "black",
-}) => {
+const LogoIcon: FC<IconProps> = ({ color = "black", size = 45 }) => {
   return (
     <svg
-      width={width}
-      height={height}
+      width={size}
+      height={size}
       viewBox="0 0 45 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

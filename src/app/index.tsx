@@ -1,6 +1,6 @@
 import {
   createBrowserRouter,
-  redirect,
+  Navigate,
   RouterProvider,
 } from "react-router-dom";
 import PrivateLayout from "./layouts/PrivateLayout";
@@ -15,7 +15,7 @@ const App: FC = () => {
   const router = createBrowserRouter([
     {
       path: HOME_PATH,
-      loader: async () => redirect("/article"),
+      element: <Navigate to={ARTICLES_PATH} />,
     },
     {
       path: ARTICLES_PATH,

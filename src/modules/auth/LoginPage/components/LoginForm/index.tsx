@@ -30,10 +30,10 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginSchemaType) => {
     await mutateLogin(data, {
       onSuccess: (data) => {
-        console.log(data, "data");
         useAuthStore.setState({
           accessToken: data.token,
           refreshToken: data.refreshToken,
+          isAuthenticated: true,
         });
 
         navigate(ARTICLES_PATH);
