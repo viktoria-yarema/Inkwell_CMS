@@ -5,5 +5,4 @@ export type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export type LoginResponse = {
   token: string;
-  refreshToken: string;
 };

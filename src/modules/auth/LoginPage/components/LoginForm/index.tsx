@@ -14,7 +14,7 @@ import useAuthStore from "@/entities/auth/stores/useAuthStore";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
+  const { setAccessToken, setIsAuthenticated } = useAuthStore();
   const {
     control,
     handleSubmit,
@@ -30,11 +30,8 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginSchemaType) => {
     await mutateLogin(data, {
       onSuccess: (data) => {
-        useAuthStore.setState({
-          accessToken: data.token,
-          refreshToken: data.refreshToken,
-          isAuthenticated: true,
-        });
+        setAccessToken(data.token);
+        setIsAuthenticated(true);
 
         navigate(ARTICLES_PATH);
       },

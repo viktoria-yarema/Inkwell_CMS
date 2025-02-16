@@ -2,10 +2,12 @@ import axios from "axios";
 import { LOGIN_PATH } from "../routes/paths";
 import useAuthStore from "../../entities/auth/stores/useAuthStore";
 
-const API_BASE_URL = import.meta.env.VITE_BASE_URL;
-const instance = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
+const api = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
+});
 
-instance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
@@ -16,7 +18,7 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-instance.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -24,28 +26,16 @@ instance.interceptors.response.use(
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const refreshToken = useAuthStore.getState().refreshToken;
-          if (!refreshToken) {
-            throw new Error("No refresh token available");
-          }
+          const { data } = await api.post(`/refresh-token`);
 
-          const { data } = await axios.post(`${API_BASE_URL}/refresh-token`, {
-            refreshToken,
-          });
+          useAuthStore.getState().setAccessToken(data.accessToken);
 
-          useAuthStore.setState({
-            accessToken: data.accessToken,
-          });
-
-          instance.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
+          api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
           originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-          return instance(originalRequest);
+          return api(originalRequest);
         } catch (refreshError) {
           console.error("Token refresh failed:", refreshError);
-          useAuthStore.setState({
-            accessToken: null,
-            refreshToken: null,
-          });
+          useAuthStore.getState().logout();
           window.location.href = LOGIN_PATH;
           return Promise.reject(refreshError);
         }
@@ -55,4 +45,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default api;
