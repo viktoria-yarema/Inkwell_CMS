@@ -1,4 +1,4 @@
-import { Article } from "./articles/type";
+import { Article } from "./type";
 import { format, parseISO } from "date-fns";
 
 export const formatArticle = (article: Article): Article => {

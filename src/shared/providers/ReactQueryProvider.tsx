@@ -28,7 +28,7 @@ export default function ReactQueryProvider({
     <QueryClientProvider client={queryClientDefault}>
       {children}
       <ReactQueryDevtools
-        buttonPosition="top-left"
+        buttonPosition="bottom-right"
         initialIsOpen={import.meta.env.VITE_NODE_ENV === "development"}
       />
     </QueryClientProvider>

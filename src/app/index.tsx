@@ -6,7 +6,7 @@ import {
 import PrivateLayout from "./layouts/PrivateLayout";
 import { FC, Suspense } from "react";
 import { routes } from "../shared/routes/routing";
-import { LoginPage } from "../modules/auth/LoginPage";
+import { LoginPage } from "../modules/auth/pages/LoginPage";
 import { ARTICLES_PATH, HOME_PATH, LOGIN_PATH } from "../shared/routes/paths";
 import ReactQueryProvider from "@/shared/providers/ReactQueryProvider";
 import PublicLayout from "./layouts/PublicLayout";

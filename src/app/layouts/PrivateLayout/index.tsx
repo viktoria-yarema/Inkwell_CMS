@@ -17,7 +17,9 @@ const PrivateLayout: FC<PropsWithChildren> = () => {
       <SideBar />
       <div className="flex flex-col gap-6 py-4">
         <PageHeader />
-        <Outlet />
+        <div className="flex flex-col pr-6">
+          <Outlet />
+        </div>
       </div>
     </main>
   );
