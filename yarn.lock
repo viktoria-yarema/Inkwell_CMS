@@ -244,6 +244,24 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
+"@codexteam/icons@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@codexteam/icons/-/icons-0.0.5.tgz#d17f39b6a0497c6439f57dd42711817a3dd3679c"
+  integrity sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==
+
+"@editorjs/editorjs@^2.29.1", "@editorjs/editorjs@^2.30.8":
+  version "2.30.8"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.30.8.tgz#e88773622b656f002d6aac31a4b09a04ddea554b"
+  integrity sha512-ClFuxI1qZTfXPJTacQfsJtOUP6bKoIe6BQNdAvGsDTDVwMnZEzoaSOwvUpdZEE56xppVfQueNK/1MElV9SJKHg==
+
+"@editorjs/header@^2.8.8":
+  version "2.8.8"
+  resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.8.8.tgz#43cff7949c44866da7716fdb562d68116d0a806a"
+  integrity sha512-bsMSs34u2hoi0UBuRoc5EGWXIFzJiwYgkFUYQGVm63y5FU+s8zPBmVx5Ip2sw1xgs0fqfDROqmteMvvmbCy62w==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+    "@editorjs/editorjs" "^2.29.1"
+
 "@esbuild/aix-ppc64@0.24.2":
   version "0.24.2"
   resolved "https://registry.yarnpkg.com/@esbuild/aix-ppc64/-/aix-ppc64-0.24.2.tgz#38848d3e25afe842a7943643cbcd387cc6e13461"
@@ -912,6 +930,18 @@
   dependencies:
     "@tanstack/query-core" "5.66.0"
 
+"@tanstack/react-table@^8.21.2":
+  version "8.21.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.21.2.tgz#6a7fce828b64547e33f4606ada8114db496007cc"
+  integrity sha512-11tNlEDTdIhMJba2RBH+ecJ9l1zgS2kjmexDPAraulc8jeNA4xocSNeyzextT0XJyASil4XsCYlJmf5jEWAtYg==
+  dependencies:
+    "@tanstack/table-core" "8.21.2"
+
+"@tanstack/table-core@8.21.2":
+  version "8.21.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.21.2.tgz#dd57595a1773652bb6fb437e90a5f5386a49fd7e"
+  integrity sha512-uvXk/U4cBiFMxt+p9/G7yUWI/UbHYbyghLCjlpWZ3mLeIZiUBSKcUnw9UnKkdRz7Z/N4UBuFLWQdJCjUe7HjvA==
+
 "@trivago/prettier-plugin-sort-imports@^5.2.1":
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-5.2.2.tgz#38983f0b83490a0a7d974a6f1e409fb4bf678d02"
@@ -1424,6 +1454,11 @@ data-uri-to-buffer@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz#d8feb2b2881e6a4f58c2e08acfd0e2834e26222e"
   integrity sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==
+
+date-fns@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
+  integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
 
 debug@4, debug@^4.1.0, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.4.0"

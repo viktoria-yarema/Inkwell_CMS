@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.30.8",
+    "@editorjs/header": "^2.8.8",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-label": "^2.1.1",
@@ -18,10 +20,12 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-query-devtools": "^5.66.0",
+    "@tanstack/react-table": "^8.21.2",
     "@trivago/prettier-plugin-sort-imports": "^5.2.1",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -6,10 +6,12 @@ const NavBar = () => {
   const pathname = useLocation().pathname;
   const isActive = (path: string) => pathname === path;
 
+  const mainRoutes = routes.filter(({ path }) => !path.includes(":"));
+
   return (
     <nav className="flex flex-col gap-4 h-screen bg-sidebar-background text-sidebar-foreground">
       <ul className="flex flex-col items-center gap-1 pr-4 pl-3">
-        {routes.map(({ path, name, Icon }) => (
+        {mainRoutes.map(({ path, name, Icon }) => (
           <li
             key={path}
             className={cn(

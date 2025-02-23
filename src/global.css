@@ -133,9 +133,7 @@ video {
     --sidebar-border: 228, 231, 236;
     --sidebar-ring: 59, 130, 246;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -149,5 +147,9 @@ video {
 
   .flex-between {
     @apply flex items-center justify-between;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
