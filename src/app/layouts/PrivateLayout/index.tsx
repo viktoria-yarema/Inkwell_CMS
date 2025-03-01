@@ -15,9 +15,9 @@ const PrivateLayout: FC<PropsWithChildren> = () => {
   return (
     <main className="grid grid-cols-[300px_1fr] gap-6">
       <SideBar />
-      <div className="flex flex-col gap-6 py-4">
+      <div className="flex flex-col gap-6 py-4 h-dvh">
         <PageHeader />
-        <div className="flex flex-col pr-6">
+        <div className="flex flex-col pr-6 h-dvh overflow-y-scroll">
           <Outlet />
         </div>
       </div>
