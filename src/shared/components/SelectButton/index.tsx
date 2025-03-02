@@ -38,7 +38,7 @@ const SelectButton = ({
     >
       <SelectTrigger
         className={cn(
-          "rounded-full border px-4 py-2 text-lg",
+          "rounded-full border px-4 py-2 text-lg transition-all duration-500 linear",
           className,
           selected.color
         )}
