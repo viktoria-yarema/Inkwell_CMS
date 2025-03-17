@@ -11,8 +11,10 @@ const PageHeader: FC = () => {
     ?.children.find((child) => child.pathname === pathname)?.title;
 
   return (
-    <div className="flex items-center gap-2">
-      <h1 className="text-3xl font-bold uppercase">{nestedTitle || title}</h1>
+    <div className="flex items-center gap-2 h-12">
+      <h1 className="text-2xl font-medium uppercase text-stone-300">
+        {nestedTitle || title}
+      </h1>
     </div>
   );
 };

@@ -10,7 +10,7 @@ interface EditorProps {
 
 const Editor: FC<EditorProps> = ({ data, onChange, editorblock }) => {
   const ref = useRef<EditorJS | null>(null);
-
+  console.log(data, "data");
   const initializeEditor = () => {
     if (!ref.current) {
       const editor = new EditorJS({
@@ -28,7 +28,9 @@ const Editor: FC<EditorProps> = ({ data, onChange, editorblock }) => {
   };
 
   useEffect(() => {
-    initializeEditor();
+    if (!ref.current) {
+      initializeEditor();
+    }
 
     //Add a return function to handle cleanup
     return () => {

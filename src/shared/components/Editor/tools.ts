@@ -3,13 +3,11 @@ import Header from "@editorjs/header";
 import List from "@editorjs/list";
 // import Link from "@editorjs/link";
 import Delimiter from "@editorjs/delimiter";
-// import CheckList from "@editorjs/checklist";
 import Image from "@editorjs/image";
 // import SimpleImage from "@editorjs/simple-image";
 import Quote from "@editorjs/quote";
 // import Raw from "@editorjs/raw";
 import Embed from "@editorjs/embed";
-import Table from "@editorjs/table";
 import Warning from "@editorjs/warning";
 
 export const EDITOR_JS_TOOLS = {
@@ -17,7 +15,6 @@ export const EDITOR_JS_TOOLS = {
     class: Paragraph,
     inlineToolbar: true,
   },
-  // checkList: CheckList,
   list: {
     class: List,
     inlineToolbar: true,
@@ -30,7 +27,7 @@ export const EDITOR_JS_TOOLS = {
     config: {
       placeholder: "Enter a header",
       levels: [1, 2, 3, 4],
-      defaultLevel: 1,
+      defaultLevel: 3,
     },
   },
   delimiter: Delimiter,
@@ -94,14 +91,6 @@ export const EDITOR_JS_TOOLS = {
     config: {
       quotePlaceholder: "Enter a quote",
       captionPlaceholder: "Quote's author",
-    },
-  },
-  table: {
-    class: Table,
-    inlineToolbar: true,
-    config: {
-      rows: 2,
-      cols: 3,
     },
   },
   // linkTool: {
