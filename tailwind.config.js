@@ -3,18 +3,18 @@ module.exports = {
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-	fontSize: {
-		xxs: "10px",
-		xs: "12px",
-		sm: "14px",
-		base: "16px",
-		lg: "18px",
-		xl: "20px",
-		"2xl": "24px",
-		"3xl": "30px",
-		"4xl": "36px",
-		"5xl": "48px",
-	  },
+  	fontSize: {
+  		xxs: '10px',
+  		xs: '12px',
+  		sm: '14px',
+  		base: '16px',
+  		lg: '18px',
+  		xl: '20px',
+  		'2xl': '24px',
+  		'3xl': '30px',
+  		'4xl': '36px',
+  		'5xl': '48px'
+  	},
   	extend: {
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -53,7 +53,7 @@ module.exports = {
   				foreground: 'rgba(var(--destructive-foreground), <alpha-value>)'
   			},
   			border: 'rgba(var(--border), <alpha-value>)',
-  			input: 'rgba(var(--input), <alpha-value>)',	
+  			input: 'rgba(var(--input), <alpha-value>)',
   			sidebar: {
   				DEFAULT: 'rgba(var(--sidebar-background), <alpha-value>)',
   				foreground: 'rgba(var(--sidebar-foreground), <alpha-value>)',
@@ -64,6 +64,28 @@ module.exports = {
   				border: 'rgba(var(--sidebar-border), <alpha-value>)',
   				ring: 'rgba(var(--sidebar-ring), <alpha-value>)'
   			}
+  		},
+  		keyframes: {
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },
