@@ -1,17 +1,17 @@
-import Editor from "@/shared/components/Editor";
 import { Button } from "@/shared/components/Button";
 import { useState } from "react";
 import SelectButton, { SelectOption } from "@/shared/components/SelectButton";
-import { EDITOR_INITIAL_DATA, STATUS_OPTIONS } from "./constants";
+import { STATUS_OPTIONS } from "./constants";
 import { Input } from "@/shared/components/Input";
+import QuillEditor from "@/shared/components/QuillEditor";
 
 const CreateArticlePage = () => {
-  const [data, setData] = useState(EDITOR_INITIAL_DATA);
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
     STATUS_OPTIONS[0]
   );
   const [title, setTitle] = useState("");
-  
+  const [content, setContent] = useState("");
+  console.log(content, "content");
   return (
     <div className="flex flex-col gap-10">
       <div className="top-5 right-4 fixed flex gap-2">
@@ -34,7 +34,11 @@ const CreateArticlePage = () => {
         onChange={(e) => setTitle(e.target.value)}
         className="h-[68px] !text-5xl font-medium rounded-none focus-visible:ring-offset-0 focus-visible:ring-0 border-none shadow-none placeholder:text-gray-400 placeholder:text-5xl placeholder:font-light"
       />
-      <Editor data={data} onChange={setData} editorblock="editorjs-container" />
+      <QuillEditor
+        value={content}
+        onChange={setContent}
+        className="min-h-[300px]"
+      />
     </div>
   );
 };
