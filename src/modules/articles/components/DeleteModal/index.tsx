@@ -24,10 +24,7 @@ const DeleteModal: FC<DeleteModalProps> = ({
 }) => {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogOverlay
-        className="bg-gray-300/10"
-        onClick={() => onOpenChange(false)}
-      />
+      <AlertDialogOverlay onClick={() => onOpenChange(false)} />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

@@ -49,7 +49,7 @@ export const getArticleColumns = ({
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex-center h-8 w-8 rounded-full hover:bg-white p-0 cursor-pointer">
+            <button className="flex-center h-8 w-8 rounded-full hover:bg-white p-0 cursor-pointer m-auto">
               <EllipsisVertical className="size-4" />
             </button>
           </DropdownMenuTrigger>

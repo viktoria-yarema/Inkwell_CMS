@@ -1,27 +1,44 @@
 import { Button } from "@/shared/components/Button";
-import { useState } from "react";
-import SelectButton, { SelectOption } from "@/shared/components/SelectButton";
-import { STATUS_OPTIONS } from "../../constants";
+import { SelectOption } from "@/shared/components/SelectButton";
 import QuillEditor from "@/shared/components/QuillEditor";
-import { useCreateArticleMutation } from "@/entities/articles/mutations/useCreateArticleMutation";
-import { ArticleStatus } from "@/entities/articles/type";
-import { useToast } from "@/hooks/use-toast";
-import useUserQuery from "@/entities/user/queries/useUserQuery";
 import ArticleTitle from "../../components/ArticleTitle";
+import { STATUS_OPTIONS } from "../../constants";
+import SelectButton from "@/shared/components/SelectButton";
+import useUserQuery from "@/entities/user/queries/useUserQuery";
+import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useUpdateArticleMutation } from "@/entities/articles/mutations/useUpdateArticleMutations";
+import { useParams } from "react-router-dom";
+import { getCachedArticleById } from "@/entities/articles/queries/useGetArticlesQuery";
+import { ArticleStatus } from "@/entities/articles/type";
 
-const CreateArticlePage = () => {
+const EditArticlePage = () => {
+  const { id } = useParams();
+  const article = getCachedArticleById(id);
+
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
     STATUS_OPTIONS[0]
   );
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   const { data: user } = useUserQuery();
+  const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
+    useUpdateArticleMutation();
 
-  const { mutate: createArticle, isPending: isPendingCreateArticle } =
-    useCreateArticleMutation();
+  useEffect(() => {
+    if (article) {
+      setTitle(article.title);
+      setContent(article.content);
+      setSelectedStatus(
+        STATUS_OPTIONS.find((option) => option.value === article.status) ??
+          STATUS_OPTIONS[0]
+      );
+    }
+  }, [article]);
 
-  const handleCreateArticle = () => {
+  const handleUpdateArticle = () => {
     if (!user?.id) {
       toast({
         title: "Opps!",
@@ -31,7 +48,7 @@ const CreateArticlePage = () => {
       return;
     }
 
-    if (!title || !content || !user?.id) {
+    if (!title || !content || !user?.id || !article) {
       toast({
         title: "Error creating article",
         description: "Please fill in all fields",
@@ -40,13 +57,12 @@ const CreateArticlePage = () => {
       return;
     }
 
-    createArticle(
+    updateArticle(
       {
+        ...article,
         title,
         content,
         status: selectedStatus.value as ArticleStatus,
-        authorId: user.id,
-        tags: [],
       },
       {
         onError: (error) => {
@@ -73,9 +89,9 @@ const CreateArticlePage = () => {
         />
         <Button
           size="lg"
-          onClick={handleCreateArticle}
-          disabled={isPendingCreateArticle}
-          isLoading={isPendingCreateArticle}
+          onClick={handleUpdateArticle}
+          disabled={isPendingUpdateArticle}
+          isLoading={isPendingUpdateArticle}
         >
           Save
         </Button>
@@ -90,4 +106,4 @@ const CreateArticlePage = () => {
   );
 };
 
-export default CreateArticlePage;
+export default EditArticlePage;

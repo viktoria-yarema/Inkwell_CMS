@@ -1,3 +1,4 @@
+import { ArticleStatus } from "@/entities/articles/type";
 import { CircleSlash, Loader } from "lucide-react";
 
 export const EDITOR_INITIAL_DATA = {
@@ -6,10 +7,15 @@ export const EDITOR_INITIAL_DATA = {
 };
 
 export const STATUS_OPTIONS = [
-  { label: "Draft", value: "draft", color: "bg-gray-100", Icon: CircleSlash },
+  {
+    label: "Draft",
+    value: ArticleStatus.DRAFT,
+    color: "bg-gray-100",
+    Icon: CircleSlash,
+  },
   {
     label: "Published",
-    value: "published",
+    value: ArticleStatus.PUBLISHED,
     color: "bg-lime-400/80",
     Icon: Loader,
   },

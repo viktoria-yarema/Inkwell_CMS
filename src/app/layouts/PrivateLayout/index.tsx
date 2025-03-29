@@ -4,6 +4,7 @@ import PageHeader from "@/app/components/PageHeader";
 import { FC, PropsWithChildren } from "react";
 import useAuthStore from "@/entities/auth/stores/useAuthStore";
 import { LOGIN_PATH } from "@/shared/routes/paths";
+import Toaster from "@/shared/components/Toaster";
 
 const PrivateLayout: FC<PropsWithChildren> = () => {
   const { isAuthenticated } = useAuthStore();
@@ -21,6 +22,7 @@ const PrivateLayout: FC<PropsWithChildren> = () => {
           <Outlet />
         </div>
       </div>
+      <Toaster />
     </main>
   );
 };

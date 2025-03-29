@@ -6,9 +6,18 @@ const PageHeader: FC = () => {
   const { pathname } = useLocation();
   const title = routes.find((route) => route.pathname === pathname)?.title;
 
+  // TODO: This is a hack to get the nested title
   const nestedTitle = routes
     .find((route) => route.pathname.includes(pathname.split("/")[1]))
-    ?.children.find((child) => child.pathname === pathname)?.title;
+    ?.children.find((child) => {
+      if (child.pathname === pathname) {
+        return child.title;
+      } else if (child.pathname.includes(pathname.split("/")[1])) {
+        return child.title;
+      }
+
+      return undefined;
+    })?.title;
 
   return (
     <div className="flex items-center gap-2 h-12">
