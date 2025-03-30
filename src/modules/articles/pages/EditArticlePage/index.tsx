@@ -6,10 +6,13 @@ import { STATUS_OPTIONS } from "../../constants";
 import SelectButton from "@/shared/components/SelectButton";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/shared/hooks/use-toast";
 import { useUpdateArticleMutation } from "@/entities/articles/mutations/useUpdateArticleMutations";
 import { useParams } from "react-router-dom";
-import { getCachedArticleById } from "@/entities/articles/queries/useGetArticlesQuery";
+import {
+  getCachedArticleById,
+  invalidateArticlesQuery,
+} from "@/entities/articles/queries/useGetArticlesQuery";
 import { ArticleStatus } from "@/entities/articles/type";
 
 const EditArticlePage = () => {
@@ -21,12 +24,13 @@ const EditArticlePage = () => {
   );
   const { toast } = useToast();
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(JSON.stringify({ ops: [] }));
 
   const { data: user } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
     useUpdateArticleMutation();
 
+  console.log(content, "content");
   useEffect(() => {
     if (article) {
       setTitle(article.title);
@@ -64,10 +68,18 @@ const EditArticlePage = () => {
         content,
         status: selectedStatus.value as ArticleStatus,
       },
+
       {
+        onSuccess: () => {
+          invalidateArticlesQuery();
+          toast({
+            title: "Article updated successfully",
+            variant: "default",
+          });
+        },
         onError: (error) => {
           toast({
-            title: "Error creating article",
+            title: "Error updating article",
             description: error.message,
             variant: "destructive",
           });

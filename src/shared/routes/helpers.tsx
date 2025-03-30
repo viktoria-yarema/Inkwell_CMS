@@ -1,5 +1,5 @@
 import { NestedRoute, Route } from "@/shared/routes/type";
-import { RouteObject } from "react-router-dom";
+import { generatePath, RouteObject } from "react-router-dom";
 
 const createMainRoute = ({ pathname, Component }: Route): RouteObject[] => {
   return Component ? [{ path: pathname, element: <Component /> }] : [];
@@ -20,3 +20,15 @@ export const generateRoutes = (routes: Route[]): RouteObject[] => {
     ...createNestedRoute(route.children),
   ]);
 };
+
+export const findNestedRoute = (
+  children: NestedRoute[],
+  pathname: string,
+  id: string
+) =>
+  children.find((child) => {
+    return (
+      child.pathname === pathname ||
+      generatePath(child.pathname, { id }) === pathname
+    );
+  });

@@ -5,9 +5,10 @@ import { STATUS_OPTIONS } from "../../constants";
 import QuillEditor from "@/shared/components/QuillEditor";
 import { useCreateArticleMutation } from "@/entities/articles/mutations/useCreateArticleMutation";
 import { ArticleStatus } from "@/entities/articles/type";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/shared/hooks/use-toast";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import ArticleTitle from "../../components/ArticleTitle";
+import { invalidateArticlesQuery } from "@/entities/articles/queries/useGetArticlesQuery";
 
 const CreateArticlePage = () => {
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -17,7 +18,7 @@ const CreateArticlePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { data: user } = useUserQuery();
-
+  console.log(content, "content");
   const { mutate: createArticle, isPending: isPendingCreateArticle } =
     useCreateArticleMutation();
 
@@ -49,6 +50,13 @@ const CreateArticlePage = () => {
         tags: [],
       },
       {
+        onSuccess: () => {
+          invalidateArticlesQuery();
+          toast({
+            title: "Article created successfully",
+            variant: "default",
+          });
+        },
         onError: (error) => {
           toast({
             title: "Error creating article",

@@ -28,7 +28,7 @@ const ArticlesPage = () => {
   return (
     <div className="flex flex-col gap-4 w-full">
       <Button
-        className="text-lg font-semibold px-3 fixed top-6 right-6"
+        className="text-lg font-semibold px-3 fixed top-5 right-6"
         size="lg"
         onClick={() => navigate(generatePath(ARTICLE_PATH, { id: "create" }))}
       >

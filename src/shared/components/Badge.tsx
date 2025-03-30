@@ -19,7 +19,7 @@ export const Badge: FC<BadgeProps> = ({
       className={cn(
         "rounded-md text-sm uppercase font-bold px-3 py-1 w-min h-8 flex items-center justify-center transition-opacity duration-300 cursor-pointer",
         {
-          success: "bg-green-600 text-white",
+          success: "bg-lime-400/80 text-white",
           warning: "bg-orange-600 text-white",
           error: "bg-red-600 text-white",
           info: "bg-blue-600 text-white",
@@ -28,6 +28,7 @@ export const Badge: FC<BadgeProps> = ({
         {
           "border border-gray-300 text-gray-700 bg-transparent":
             variant === "outline",
+          "text-gray-700": color === "success",
         },
         className
       )}

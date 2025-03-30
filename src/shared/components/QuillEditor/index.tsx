@@ -1,14 +1,19 @@
 "use client";
 
-import type React from "react";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type React } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import cn from "@/shared/utils/cn";
 import ToolBar from "./components/ToolBar";
 
 const Embed = Quill.import("blots/block/embed");
+
+// Helper function to decode HTML entities
+function decodeHtmlEntities(str: string) {
+  const textArea = document.createElement("textarea");
+  textArea.innerHTML = str;
+  return textArea.value;
+}
 
 class DividerBlot extends Embed {
   static create() {
@@ -83,10 +88,13 @@ export default function QuillEditor({
       // Set initial content
       if (value) {
         try {
-          const delta = JSON.parse(value);
+          // Decode HTML entities before parsing JSON
+          const decodedValue = decodeHtmlEntities(value);
+          const delta = JSON.parse(decodedValue);
           quill.setContents(delta);
         } catch (e) {
-          // If value is not valid JSON, set as text
+          console.error("Error parsing delta:", e);
+          // If parsing fails, try to set as plain text
           quill.setText(value);
         }
       }
@@ -114,27 +122,32 @@ export default function QuillEditor({
     // Only update content if it's different from current content
     const currentContent = JSON.stringify(quill.getContents());
 
-    if (value && value !== currentContent) {
-      // Store current selection
-      const selection = quill.getSelection();
-
+    if (value) {
       try {
-        const delta = JSON.parse(value);
-        // Temporarily remove the text-change handler
-        quill.off("text-change");
-        quill.setContents(delta);
-        // Re-add the text-change handler
-        quill.on("text-change", () => {
-          const contents = quill.getContents();
-          onChange(JSON.stringify(contents));
-        });
+        // Decode HTML entities before parsing JSON
+        const decodedValue = decodeHtmlEntities(value);
+        const parsedValue = JSON.parse(decodedValue);
+        const parsedValueStr = JSON.stringify(parsedValue);
 
-        // Restore selection if it existed
-        if (selection) {
-          setTimeout(() => quill.setSelection(selection), 0);
+        if (parsedValueStr !== currentContent) {
+          // Store current selection
+          const selection = quill.getSelection();
+
+          // Temporarily remove the text-change handler
+          quill.off("text-change");
+          quill.setContents(parsedValue);
+          // Re-add the text-change handler
+          quill.on("text-change", () => {
+            const contents = quill.getContents();
+            onChange(JSON.stringify(contents));
+          });
+
+          // Restore selection if it existed
+          if (selection) {
+            setTimeout(() => quill.setSelection(selection), 0);
+          }
         }
       } catch (e) {
-        // If value is not valid JSON, do nothing
         console.error("Invalid Quill delta format", e);
       }
     }
@@ -192,8 +205,8 @@ export default function QuillEditor({
         fileInputRef={fileInputRef}
         insertImage={insertImage}
       />
-      <div className="">
-        <div ref={editorRef} className="min-h-[200px] border-none" />
+      <div>
+        <div ref={editorRef} className="min-h-[200px]  border-none" />
       </div>
     </div>
   );
