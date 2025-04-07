@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectButton, { SelectOption } from "@/shared/components/SelectButton";
 import { STATUS_OPTIONS } from "../../constants";
 import QuillEditor from "@/shared/components/QuillEditor";
@@ -9,6 +9,7 @@ import { useToast } from "@/shared/hooks/use-toast";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import ArticleTitle from "../../components/ArticleTitle";
 import { invalidateArticlesQuery } from "@/entities/articles/queries/useGetArticlesQuery";
+import { getBase64ToBlob } from "@/shared/utils/base64ToBlob";
 
 const CreateArticlePage = () => {
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -18,7 +19,23 @@ const CreateArticlePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { data: user } = useUserQuery();
-  console.log(content, "content");
+  const images = content
+    ? JSON.parse(content)
+        .ops.filter((op: any) => op.insert?.image)
+        .map((op: any) => op.insert.image)
+    : [];
+
+  useEffect(() => {
+    const image = async () => {
+      console.log(images, "images");
+      const blob = await getBase64ToBlob(images[0]);
+      console.log(blob, "blob");
+    };
+    if (content) {
+      image();
+    }
+  }, [content]);
+
   const { mutate: createArticle, isPending: isPendingCreateArticle } =
     useCreateArticleMutation();
 

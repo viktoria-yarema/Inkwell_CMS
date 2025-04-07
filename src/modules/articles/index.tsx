@@ -6,7 +6,7 @@ import { generatePath, useNavigate } from "react-router-dom";
 import { useGetArticlesQuery } from "@/entities/articles/queries/useGetArticlesQuery";
 import { ARTICLE_PATH } from "@/shared/routes/paths";
 import { useDeleteArticleMutation } from "@/entities/articles/mutations/useDeleteArticleMutation";
-import DeleteModal from "./components/DeleteModal";
+import DeleteModal from "../../shared/components/DeleteModal";
 import { useState } from "react";
 
 const ArticlesPage = () => {
@@ -47,6 +47,8 @@ const ArticlesPage = () => {
       <DeleteModal
         open={open}
         onOpenChange={setOpen}
+        title="Are you sure?"
+        description="This will permanently delete your article and remove your data from our servers."
         onConfirm={() => {
           if (selectedArticleId) {
             deleteArticle(selectedArticleId);

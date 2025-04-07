@@ -30,7 +30,6 @@ const EditArticlePage = () => {
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
     useUpdateArticleMutation();
 
-  console.log(content, "content");
   useEffect(() => {
     if (article) {
       setTitle(article.title);

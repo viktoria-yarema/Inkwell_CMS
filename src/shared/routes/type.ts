@@ -12,5 +12,5 @@ export type Route = {
   pathname: string;
   Component: FC;
   Icon: React.FC<IconProps>;
-  children: NestedRoute[];
+  children?: NestedRoute[];
 };

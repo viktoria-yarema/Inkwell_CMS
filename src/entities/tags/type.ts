@@ -1,6 +1,8 @@
 export type Tag = {
   id: string;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  title: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 };
+
+export type UpdateTag = Omit<Tag, "createdAt" | "updatedAt">;
