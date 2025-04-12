@@ -6,3 +6,8 @@ export type Tag = {
 };
 
 export type UpdateTag = Omit<Tag, "createdAt" | "updatedAt">;
+
+export type ArticleTag = {
+  _id: string;
+  title: string;
+};

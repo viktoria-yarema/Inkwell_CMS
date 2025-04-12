@@ -1,4 +1,4 @@
-import { Tag } from "../tags/type";
+import { ArticleTag } from "../tags/type";
 
 export type Article = {
   id: string;
@@ -8,7 +8,7 @@ export type Article = {
   updatedAt: string | Date;
   authorId: string;
   status: ArticleStatus;
-  tags: Tag[];
+  tags: ArticleTag[];
 };
 
 export type CreateArticle = Omit<Article, "id" | "createdAt" | "updatedAt">;
@@ -17,4 +17,3 @@ export enum ArticleStatus {
   DRAFT = "draft",
   PUBLISHED = "published",
 }
-
