@@ -10,6 +10,8 @@ import useUserQuery from "@/entities/user/queries/useUserQuery";
 import ArticleTitle from "../../components/ArticleTitle";
 import { invalidateArticlesQuery } from "@/entities/articles/queries/useGetArticlesQuery";
 import { getBase64ToBlob } from "@/shared/utils/base64ToBlob";
+import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
+import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 
 const CreateArticlePage = () => {
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -19,6 +21,9 @@ const CreateArticlePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { data: user } = useUserQuery();
+  const { data: tags = [] } = useGetTagsQuery();
+  const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
+
   const images = content
     ? JSON.parse(content)
         .ops.filter((op: any) => op.insert?.image)
@@ -64,7 +69,7 @@ const CreateArticlePage = () => {
         content,
         status: selectedStatus.value as ArticleStatus,
         authorId: user.id,
-        tags: [],
+        tags: selectedTags.map((tag) => tag.value),
       },
       {
         onSuccess: () => {
@@ -106,11 +111,23 @@ const CreateArticlePage = () => {
         </Button>
       </div>
       <ArticleTitle title={title} setTitle={setTitle} />
-      <QuillEditor
-        value={content}
-        onChange={setContent}
-        className="min-h-[300px]"
-      />
+      <div className="flex flex-col gap-2">
+        <MultiSelect
+          items={
+            tags?.map((tag) => ({
+              value: tag.id,
+              label: tag.title,
+            })) || []
+          }
+          selectedItems={selectedTags}
+          setSelectedItems={setSelectedTags}
+        />
+        <QuillEditor
+          value={content}
+          onChange={setContent}
+          className="min-h-[300px]"
+        />
+      </div>
     </div>
   );
 };

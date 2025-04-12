@@ -1,4 +1,4 @@
-import { ArticleTag } from "../tags/type";
+import { ArticleTagId } from "../tags/type";
 
 export type Article = {
   id: string;
@@ -8,7 +8,7 @@ export type Article = {
   updatedAt: string | Date;
   authorId: string;
   status: ArticleStatus;
-  tags: ArticleTag[];
+  tags: ArticleTagId[];
 };
 
 export type CreateArticle = Omit<Article, "id" | "createdAt" | "updatedAt">;

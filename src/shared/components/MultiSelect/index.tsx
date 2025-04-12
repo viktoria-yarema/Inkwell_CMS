@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 import { Button } from "@/shared/components/Button";
 import {
   Command,
@@ -19,37 +19,33 @@ import {
 import cn from "@/shared/utils/cn";
 import SelectBadge from "./component/SelectBadge";
 
-// Example items - replace with your own data
-const items = [
-  { value: "react", label: "React" },
-  { value: "nextjs", label: "Next.js" },
-  { value: "vue", label: "Vue" },
-  { value: "angular", label: "Angular" },
-  { value: "svelte", label: "Svelte" },
-  { value: "ember", label: "Ember" },
-  { value: "typescript", label: "TypeScript" },
-  { value: "javascript", label: "JavaScript" },
-];
+export type MultiSelectItem = { value: string; label: string };
 
-export function MultiSelect() {
+type MultiSelectProps = {
+  items: MultiSelectItem[];
+  selectedItems: MultiSelectItem[];
+  setSelectedItems: (items: MultiSelectItem[]) => void;
+};
+
+export function MultiSelect({
+  items = [],
+  selectedItems = [],
+  setSelectedItems,
+}: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedItems, setSelectedItems] = React.useState<typeof items>([]);
 
-  const handleSelect = (item: (typeof items)[0]) => {
-    // Check if item is already selected
+  const handleSelect = (item: MultiSelectItem) => {
     const isSelected = selectedItems.some(
       (selectedItem) => selectedItem.value === item.value
     );
 
     if (isSelected) {
-      // Remove item if already selected
       setSelectedItems(
         selectedItems.filter(
           (selectedItem) => selectedItem.value !== item.value
         )
       );
     } else {
-      // Add item if not selected
       setSelectedItems([...selectedItems, item]);
     }
   };
@@ -68,13 +64,29 @@ export function MultiSelect() {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-full justify-between"
+            className="min-w-[250px] group min-h-14 justify-start rounded-2xl"
           >
-            Search and select items
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className="flex flex-wrap gap-2">
+              {selectedItems.map((item, index) => (
+                <SelectBadge
+                  key={item.value}
+                  index={index}
+                  label={item.label}
+                  onRemove={handleRemove}
+                />
+              ))}
+            </div>
+            <p className="text-sm text-gray-400">
+              Search and assign article's tags...
+            </p>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
+        <PopoverContent
+          className="min-w-[250px] p-0"
+          align="start"
+          sideOffset={4}
+          style={{ width: "var(--radix-popper-anchor-width)" }}
+        >
           <Command>
             <CommandInput placeholder="Search items..." />
             <CommandList>
@@ -106,17 +118,6 @@ export function MultiSelect() {
           </Command>
         </PopoverContent>
       </Popover>
-
-      <div className="flex flex-wrap gap-2">
-        {selectedItems.map((item, index) => (
-          <SelectBadge
-            key={item.value}
-            index={index}
-            label={item.label}
-            onRemove={handleRemove}
-          />
-        ))}
-      </div>
     </div>
   );
 }

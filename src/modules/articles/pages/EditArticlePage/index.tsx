@@ -14,32 +14,47 @@ import {
   invalidateArticlesQuery,
 } from "@/entities/articles/queries/useGetArticlesQuery";
 import { ArticleStatus } from "@/entities/articles/type";
+import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
+import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 
 const EditArticlePage = () => {
   const { id } = useParams();
-  const article = getCachedArticleById(id);
-
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
     STATUS_OPTIONS[0]
   );
-  const { toast } = useToast();
+  const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(JSON.stringify({ ops: [] }));
 
   const { data: user } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
     useUpdateArticleMutation();
+  const { data: tags = [], isLoading: isLoadingTags } = useGetTagsQuery();
+
+  const { toast } = useToast();
+
+  const article = getCachedArticleById(id);
 
   useEffect(() => {
-    if (article) {
+    if (article && !isLoadingTags) {
       setTitle(article.title);
       setContent(article.content);
       setSelectedStatus(
         STATUS_OPTIONS.find((option) => option.value === article.status) ??
           STATUS_OPTIONS[0]
       );
+      setSelectedTags(
+        article.tags.map((tag) => {
+          const tagsMap = new Map(tags.map((t) => [t.id, t]));
+
+          return {
+            value: tag ?? "",
+            label: tagsMap.get(tag)?.title ?? "",
+          };
+        })
+      );
     }
-  }, [article]);
+  }, [article, tags, isLoadingTags]);
 
   const handleUpdateArticle = () => {
     if (!user?.id) {
@@ -66,6 +81,7 @@ const EditArticlePage = () => {
         title,
         content,
         status: selectedStatus.value as ArticleStatus,
+        tags: selectedTags.map((tag) => tag.value),
       },
 
       {
@@ -108,11 +124,23 @@ const EditArticlePage = () => {
         </Button>
       </div>
       <ArticleTitle title={title} setTitle={setTitle} />
-      <QuillEditor
-        value={content}
-        onChange={setContent}
-        className="min-h-[300px]"
-      />
+      <div className="flex flex-col gap-2">
+        <MultiSelect
+          items={
+            tags.map((tag) => ({
+              value: tag.id,
+              label: tag.title,
+            })) || []
+          }
+          selectedItems={selectedTags}
+          setSelectedItems={setSelectedTags}
+        />
+        <QuillEditor
+          value={content}
+          onChange={setContent}
+          className="min-h-[300px]"
+        />
+      </div>
     </div>
   );
 };
