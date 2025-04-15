@@ -80,7 +80,7 @@ const LoginForm = () => {
             )}
           />
         </div>
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" disabled={isPending} size="lg">
           {isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (

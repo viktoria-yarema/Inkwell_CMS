@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { Button } from "@/shared/components/Button";
 import {
   Command,
@@ -76,9 +76,12 @@ export function MultiSelect({
                 />
               ))}
             </div>
-            <p className="text-sm text-gray-400">
-              Search and assign article's tags...
-            </p>
+            <div className="flex items-center gap-2 text-gray-400">
+              <Plus className="size-4" />
+              <p className="text-sm text-gray-400">
+                Search and assign article's tags...
+              </p>
+            </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent

@@ -16,6 +16,7 @@ import {
 import { ArticleStatus } from "@/entities/articles/type";
 import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
 import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
+import { processEditorImages } from "@/shared/utils/processEditorImages";
 
 const EditArticlePage = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const EditArticlePage = () => {
   const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(JSON.stringify({ ops: [] }));
+  const [isProcessingImages, setIsProcessingImages] = useState(false);
 
   const { data: user } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
@@ -56,7 +58,7 @@ const EditArticlePage = () => {
     }
   }, [article, tags, isLoadingTags]);
 
-  const handleUpdateArticle = () => {
+  const handleUpdateArticle = async () => {
     if (!user?.id) {
       toast({
         title: "Opps!",
@@ -75,32 +77,49 @@ const EditArticlePage = () => {
       return;
     }
 
-    updateArticle(
-      {
-        ...article,
-        title,
-        content,
-        status: selectedStatus.value as ArticleStatus,
-        tags: selectedTags.map((tag) => tag.value),
-      },
+    try {
+      setIsProcessingImages(true);
 
-      {
-        onSuccess: () => {
-          invalidateArticlesQuery();
-          toast({
-            title: "Article updated successfully",
-            variant: "default",
-          });
+      // Process images in the editor content
+      const { updatedContent } = await processEditorImages(content, user.id);
+
+      // Update article with processed content
+      updateArticle(
+        {
+          ...article,
+          title,
+          content: updatedContent,
+          status: selectedStatus.value as ArticleStatus,
+          tags: selectedTags.map((tag) => tag.value),
         },
-        onError: (error) => {
-          toast({
-            title: "Error updating article",
-            description: error.message,
-            variant: "destructive",
-          });
-        },
-      }
-    );
+        {
+          onSuccess: () => {
+            invalidateArticlesQuery();
+            toast({
+              title: "Article updated successfully",
+              variant: "default",
+            });
+          },
+          onError: (error) => {
+            toast({
+              title: "Error updating article",
+              description: error.message,
+              variant: "destructive",
+            });
+          },
+          onSettled: () => {
+            setIsProcessingImages(false);
+          },
+        }
+      );
+    } catch (error) {
+      setIsProcessingImages(false);
+      toast({
+        title: "Error processing images",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -117,8 +136,8 @@ const EditArticlePage = () => {
         <Button
           size="lg"
           onClick={handleUpdateArticle}
-          disabled={isPendingUpdateArticle}
-          isLoading={isPendingUpdateArticle}
+          disabled={isPendingUpdateArticle || isProcessingImages}
+          isLoading={isPendingUpdateArticle || isProcessingImages}
         >
           Save
         </Button>

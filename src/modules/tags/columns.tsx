@@ -1,12 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/DropdownMenu";
-import { EllipsisVertical } from "lucide-react";
+import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
 import { Tag } from "@/entities/tags/type";
+import TableDropdownMenu from "@/shared/components/TableDropdownMenu";
 
 type TagColumnsProps = {
   handleDeleteTag: (id: string) => void;
@@ -30,32 +25,27 @@ export const getTagColumns = ({
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="flex-center h-8 w-8 rounded-full hover:bg-white p-0 cursor-pointer m-auto">
-              <EllipsisVertical className="size-4" />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                handleUpdateTag(row.original.id, row.original.title);
-              }}
-            >
-              Update
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteTag(row.original.id);
-              }}
-              className="text-red-500 !hover:bg-red-500 !hover:text-white"
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TableDropdownMenu
+          handleDelete={() => handleDeleteTag(row.original.id)}
+        >
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleUpdateTag(row.original.id, row.original.title);
+            }}
+          >
+            Update
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteTag(row.original.id);
+            }}
+            className="text-red-500 !hover:bg-red-500 !hover:text-white"
+          >
+            Delete
+          </DropdownMenuItem>
+        </TableDropdownMenu>
       );
     },
   },

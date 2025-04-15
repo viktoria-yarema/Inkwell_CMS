@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectButton, { SelectOption } from "@/shared/components/SelectButton";
 import { STATUS_OPTIONS } from "../../constants";
 import QuillEditor from "@/shared/components/QuillEditor";
@@ -9,9 +9,9 @@ import { useToast } from "@/shared/hooks/use-toast";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import ArticleTitle from "../../components/ArticleTitle";
 import { invalidateArticlesQuery } from "@/entities/articles/queries/useGetArticlesQuery";
-import { getBase64ToBlob } from "@/shared/utils/base64ToBlob";
 import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
 import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
+import { processEditorImages } from "@/shared/utils/processEditorImages";
 
 const CreateArticlePage = () => {
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -23,28 +23,12 @@ const CreateArticlePage = () => {
   const { data: user } = useUserQuery();
   const { data: tags = [] } = useGetTagsQuery();
   const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
-
-  const images = content
-    ? JSON.parse(content)
-        .ops.filter((op: any) => op.insert?.image)
-        .map((op: any) => op.insert.image)
-    : [];
-
-  useEffect(() => {
-    const image = async () => {
-      console.log(images, "images");
-      const blob = await getBase64ToBlob(images[0]);
-      console.log(blob, "blob");
-    };
-    if (content) {
-      image();
-    }
-  }, [content]);
+  const [isProcessingImages, setIsProcessingImages] = useState(false);
 
   const { mutate: createArticle, isPending: isPendingCreateArticle } =
     useCreateArticleMutation();
 
-  const handleCreateArticle = () => {
+  const handleCreateArticle = async () => {
     if (!user?.id) {
       toast({
         title: "Opps!",
@@ -63,31 +47,49 @@ const CreateArticlePage = () => {
       return;
     }
 
-    createArticle(
-      {
-        title,
-        content,
-        status: selectedStatus.value as ArticleStatus,
-        authorId: user.id,
-        tags: selectedTags.map((tag) => tag.value),
-      },
-      {
-        onSuccess: () => {
-          invalidateArticlesQuery();
-          toast({
-            title: "Article created successfully",
-            variant: "default",
-          });
+    try {
+      setIsProcessingImages(true);
+
+      // Process images in the editor content
+      const { updatedContent } = await processEditorImages(content, user.id);
+
+      // Create article with the updated content
+      createArticle(
+        {
+          title,
+          content: updatedContent,
+          status: selectedStatus.value as ArticleStatus,
+          authorId: user.id,
+          tags: selectedTags.map((tag) => tag.value),
         },
-        onError: (error) => {
-          toast({
-            title: "Error creating article",
-            description: error.message,
-            variant: "destructive",
-          });
-        },
-      }
-    );
+        {
+          onSuccess: () => {
+            invalidateArticlesQuery();
+            toast({
+              title: "Article created successfully",
+              variant: "default",
+            });
+          },
+          onError: (error) => {
+            toast({
+              title: "Error creating article",
+              description: error.message,
+              variant: "destructive",
+            });
+          },
+          onSettled: () => {
+            setIsProcessingImages(false);
+          },
+        }
+      );
+    } catch (error) {
+      setIsProcessingImages(false);
+      toast({
+        title: "Error processing images",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -104,8 +106,8 @@ const CreateArticlePage = () => {
         <Button
           size="lg"
           onClick={handleCreateArticle}
-          disabled={isPendingCreateArticle}
-          isLoading={isPendingCreateArticle}
+          disabled={isPendingCreateArticle || isProcessingImages}
+          isLoading={isPendingCreateArticle || isProcessingImages}
         >
           Save
         </Button>
