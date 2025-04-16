@@ -1,28 +1,18 @@
-import axios from "axios";
+import api from "@/shared/api/apiMiddleware";
 
-const bucketInstance = import.meta.env.VITE_GOOGLE_STORAGE_BUCKET;
-
-export const uploadImage = async (file: File, userId: string) => {
-  if (!bucketInstance) {
-    throw new Error(
-      "Bucket name is not defined in Vite environment variables."
-    );
-  }
-
-  const fileName = `${Date.now()}-${file.name}`;
-
-  const uploadUrl = `${bucketInstance}/${userId}/articles/${fileName}`;
-
+export const uploadImage = async (file: File) => {
   try {
-    const response = await axios.put(uploadUrl, file, {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await api.post("/images/upload", formData, {
       headers: {
-        "Content-Type": file.type,
-        withCredentials: false,
+        "Content-Type": "multipart/form-data",
       },
     });
 
     if (response.status >= 200 && response.status < 300) {
-      return uploadUrl;
+      return response.data;
     } else {
       throw new Error(`Upload failed with status: ${response.status}`);
     }
