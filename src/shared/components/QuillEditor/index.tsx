@@ -1,19 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type React } from "react";
+import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import cn from "@/shared/utils/cn";
 import ToolBar from "./components/ToolBar";
+import { decodeHtmlEntities } from "@/shared/utils/decodeHtmlEntities";
 
 const Embed = Quill.import("blots/block/embed");
-
-// Helper function to decode HTML entities
-function decodeHtmlEntities(str: string) {
-  const textArea = document.createElement("textarea");
-  textArea.innerHTML = str;
-  return textArea.value;
-}
 
 class DividerBlot extends Embed {
   static create() {

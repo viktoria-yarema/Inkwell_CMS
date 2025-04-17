@@ -1,18 +1,13 @@
 import { uploadImage } from "@/entities/articles/api/uploadImage";
 
-interface ProcessImagesResult {
+type ProcessImagesResult = {
   updatedContent: string;
   uploadPromises: Promise<void>[];
-}
+};
 
-/**
- * Extracts base64 images from Quill editor content and uploads them to storage
- */
 export const processEditorImages = async (
-  content: string,
-  userId: string
+  content: string
 ): Promise<ProcessImagesResult> => {
-  // Parse the Delta content
   let delta;
   try {
     delta = JSON.parse(content);
@@ -22,13 +17,9 @@ export const processEditorImages = async (
   }
 
   const uploadPromises: Promise<void>[] = [];
+  const imageReplacements = new Map<string, string>();
 
-  // Process each operation in the delta
   if (delta.ops && Array.isArray(delta.ops)) {
-    // Create a map to track image replacements
-    const imageReplacements = new Map<string, string>();
-
-    // First pass: collect all base64 images and start uploading them
     for (let i = 0; i < delta.ops.length; i++) {
       const op = delta.ops[i];
 
@@ -37,55 +28,47 @@ export const processEditorImages = async (
         typeof op.insert.image === "string" &&
         op.insert.image.startsWith("data:")
       ) {
-        // Convert base64 to blob
         const base64Data = op.insert.image;
         const response = await fetch(base64Data);
         const blob = await response.blob();
 
-        // Create a File object from the blob
         const fileName = `image_${Date.now()}_${i}.${blob.type.split("/")[1] || "png"}`;
         const file = new File([blob], fileName, { type: blob.type });
 
-        // Start upload and store the promise
-        const uploadPromise = (async () => {
-          try {
-            const uploadUrl = await uploadImage(file, userId);
-            // Extract just the path part after bucket name
-            const pathMatch = uploadUrl.match(/\/([^/]+)\/articles\/(.+)$/);
-            if (pathMatch) {
-              const relativePath = `/articles/${pathMatch[2]}`;
-              imageReplacements.set(base64Data, relativePath);
-            } else {
-              console.error(
-                "Could not extract path from uploadUrl:",
-                uploadUrl
-              );
-            }
-          } catch (error) {
-            console.error("Failed to upload image:", error);
+        try {
+          const uploadFileData = await uploadImage(file);
+          const uploadUrl = uploadFileData.image.url;
+          const pathMatch = uploadUrl.match(/\/([^/]+)\/articles\/(.+)$/);
+          if (pathMatch) {
+            const relativePath = `/articles/${pathMatch[2]}`;
+            imageReplacements.set(base64Data, relativePath);
+
+            op.insert.image = relativePath;
+          } else {
+            console.error("Could not extract path from uploadUrl:", uploadUrl);
           }
-        })();
-
-        uploadPromises.push(uploadPromise);
+        } catch (error) {
+          console.error("Failed to upload image:", error);
+        }
       }
     }
+  }
 
-    // Wait for all uploads to complete
-    await Promise.all(uploadPromises);
-
-    // Second pass: replace the base64 images with paths
-    for (let i = 0; i < delta.ops.length; i++) {
-      const op = delta.ops[i];
-
-      if (
-        op.insert?.image &&
-        typeof op.insert.image === "string" &&
-        imageReplacements.has(op.insert.image)
-      ) {
-        // Replace with the relative path
-        op.insert.image = imageReplacements.get(op.insert.image);
-      }
+  let allReplaced = true;
+  for (let i = 0; delta.ops && i < delta.ops.length; i++) {
+    const op = delta.ops[i];
+    if (
+      op.insert?.image &&
+      typeof op.insert.image === "string" &&
+      op.insert.image.startsWith("data:")
+    ) {
+      allReplaced = false;
+      console.warn("Found unreplaced base64 image in output");
     }
+  }
+
+  if (!allReplaced) {
+    console.warn("Not all base64 images were replaced with paths");
   }
 
   return {

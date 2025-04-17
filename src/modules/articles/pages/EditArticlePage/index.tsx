@@ -17,6 +17,7 @@ import { ArticleStatus } from "@/entities/articles/type";
 import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
 import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 import { processEditorImages } from "@/shared/utils/processEditorImages";
+import { processEditorContent } from "@/shared/utils/processEditorContent";
 
 const EditArticlePage = () => {
   const { id } = useParams();
@@ -28,19 +29,18 @@ const EditArticlePage = () => {
   const [content, setContent] = useState(JSON.stringify({ ops: [] }));
   const [isProcessingImages, setIsProcessingImages] = useState(false);
 
-  const { data: user } = useUserQuery();
+  const { data: user, isSuccess: isSuccessUser } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
     useUpdateArticleMutation();
-  const { data: tags = [], isLoading: isLoadingTags } = useGetTagsQuery();
+  const { data: tags = [], isSuccess: isSuccessTags } = useGetTagsQuery();
 
   const { toast } = useToast();
 
   const article = getCachedArticleById(id);
 
   useEffect(() => {
-    if (article && !isLoadingTags) {
+    if (article && isSuccessTags && isSuccessUser) {
       setTitle(article.title);
-      setContent(article.content);
       setSelectedStatus(
         STATUS_OPTIONS.find((option) => option.value === article.status) ??
           STATUS_OPTIONS[0]
@@ -55,8 +55,15 @@ const EditArticlePage = () => {
           };
         })
       );
+
+      const processedContent = processEditorContent(
+        article?.content ?? "",
+        user?.id ?? ""
+      );
+
+      setContent(processedContent);
     }
-  }, [article, tags, isLoadingTags]);
+  }, [article, tags, user?.id, isSuccessTags, isSuccessUser]);
 
   const handleUpdateArticle = async () => {
     if (!user?.id) {
@@ -80,10 +87,8 @@ const EditArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
-      // Process images in the editor content
-      const { updatedContent } = await processEditorImages(content, user.id);
+      const { updatedContent } = await processEditorImages(content);
 
-      // Update article with processed content
       updateArticle(
         {
           ...article,

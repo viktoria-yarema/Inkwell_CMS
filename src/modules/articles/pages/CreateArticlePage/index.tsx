@@ -12,8 +12,11 @@ import { invalidateArticlesQuery } from "@/entities/articles/queries/useGetArtic
 import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
 import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 import { processEditorImages } from "@/shared/utils/processEditorImages";
+import { useNavigate } from "react-router-dom";
+import { ARTICLES_PATH } from "@/shared/routes/paths";
 
 const CreateArticlePage = () => {
+  const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
     STATUS_OPTIONS[0]
   );
@@ -51,7 +54,7 @@ const CreateArticlePage = () => {
       setIsProcessingImages(true);
 
       // Process images in the editor content
-      const { updatedContent } = await processEditorImages(content, user.id);
+      const { updatedContent } = await processEditorImages(content);
 
       // Create article with the updated content
       createArticle(
@@ -69,6 +72,7 @@ const CreateArticlePage = () => {
               title: "Article created successfully",
               variant: "default",
             });
+            navigate(ARTICLES_PATH);
           },
           onError: (error) => {
             toast({
