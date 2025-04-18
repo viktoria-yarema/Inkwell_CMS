@@ -147,11 +147,11 @@ export default function QuillEditor({
     }
   }, [value, mounted, onChange]);
 
-  // Add CSS for divider
+  // Add CSS for divider and images
   useEffect(() => {
     if (!mounted) return;
 
-    // Add custom CSS for the divider
+    // Add custom CSS for the divider and images
     const style = document.createElement("style");
     style.innerHTML = `
       .ql-divider {
@@ -159,6 +159,11 @@ export default function QuillEditor({
         height: 1px;
         background-color: #e5e7eb;
         margin: 1rem 0;
+      }
+      .ql-editor img {
+        width: 600px;
+        height: 300px;
+        object-fit: cover;
       }
     `;
     document.head.appendChild(style);
@@ -200,7 +205,7 @@ export default function QuillEditor({
         insertImage={insertImage}
       />
       <div>
-        <div ref={editorRef} className="min-h-[200px]  border-none" />
+        <div ref={editorRef} className="min-h-[200px] border-none" />
       </div>
     </div>
   );

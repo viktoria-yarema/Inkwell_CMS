@@ -25,7 +25,7 @@ const ToolBar = ({ insertImage, toolbarId, fileInputRef }: ToolBarProps) => {
   return (
     <div
       id={toolbarId.current}
-      className="flex flex-wrap items-center gap-1 p-2 border border-b-0 rounded-t-md bg-background h-14"
+      className="flex flex-wrap h-auto items-center gap-1 p-2 border border-b-0 rounded-t-md bg-background"
     >
       <div className="flex items-center gap-1 mr-2">
         <button
