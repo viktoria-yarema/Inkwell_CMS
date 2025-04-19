@@ -1,6 +1,6 @@
-export const getAvatarInitials = (fullName: string): string => {
-  return fullName
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
+export const getAvatarInitials = (
+  firstName: string,
+  lastName: string
+): string => {
+  return `${firstName[0]}${lastName[0]}`;
 };

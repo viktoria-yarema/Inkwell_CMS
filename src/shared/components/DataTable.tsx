@@ -34,6 +34,11 @@ const DataTable = <TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const isDisabledPreviousButton =
+    !table.getCanPreviousPage() || table.getPageCount() <= 1;
+  const isDisabledNextButton =
+    !table.getCanNextPage() || table.getPageCount() <= 1;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-md border">
@@ -97,7 +102,7 @@ const DataTable = <TData, TValue>({
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            disabled={isDisabledPreviousButton}
           >
             Previous
           </Button>
@@ -105,7 +110,7 @@ const DataTable = <TData, TValue>({
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            disabled={isDisabledNextButton}
           >
             Next
           </Button>
