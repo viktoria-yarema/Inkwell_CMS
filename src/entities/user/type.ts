@@ -8,3 +8,10 @@ export type User = {
   updatedAt: Date;
   avatarUrl?: string;
 };
+
+export type UpdateUser = {
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  email?: string;
+};

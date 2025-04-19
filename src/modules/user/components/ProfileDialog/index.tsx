@@ -17,6 +17,9 @@ import profileSchema from "./validations";
 import { Mail, Phone, User } from "lucide-react";
 import { User as UserType } from "@/entities/user/type";
 import { useEffect } from "react";
+import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
+import { useToast } from "@/shared/hooks/use-toast";
+import { invalidateUserQuery } from "@/entities/user/queries/useUserQuery";
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
@@ -33,6 +36,7 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
     formState: { errors },
     reset,
     setValue,
+    setError,
   } = useForm<ProfileFormData>({
     defaultValues: {
       firstName: "",
@@ -43,19 +47,35 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
     mode: "onBlur",
     resolver: zodResolver(profileSchema),
   });
+  const { mutate: updateUser } = useUpdateUserMutation();
+  const { toast } = useToast();
 
   useEffect(() => {
-    if (user) {
+    if (user && open) {
       setValue("firstName", user?.firstName ?? "");
       setValue("lastName", user?.lastName ?? "");
       setValue("phoneNumber", user?.phoneNumber ?? "");
       setValue("email", user?.email ?? "");
     }
-  }, [user, setValue]);
+  }, [user, open]);
 
   const onSubmit = (data: ProfileFormData) => {
-    console.log("Profile data saved:", data);
-    setOpen(false);
+    updateUser(data, {
+      onSuccess: () => {
+        setOpen(false);
+        toast({
+          title: "Profile updated",
+          description: "Your profile has been updated",
+        });
+        invalidateUserQuery();
+      },
+      onError: (error) => {
+        console.error(error);
+        setError("root", {
+          message: "Something went wrong",
+        });
+      },
+    });
   };
 
   const handleClose = () => {
@@ -196,6 +216,9 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
               </div>
             </div>
           </div>
+          {errors.root && (
+            <p className="text-red-500 text-sm">{errors.root.message}</p>
+          )}
         </form>
         <DialogFooter className="flex justify-end absolute bottom-4 left-4 right-4">
           <Button
