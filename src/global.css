@@ -103,6 +103,10 @@ video {
   vertical-align: baseline;
 }
 
+body {
+  pointer-events: auto !important;
+}
+
 @layer base {
   :root {
     --background: 255, 255, 255;
@@ -113,7 +117,7 @@ video {
     --popover-foreground: 10, 18, 45;
     --primary: 23, 29, 40;
     --primary-foreground: 241, 245, 249;
-    --secondary: 241, 245, 249;
+    --secondary: 138, 138, 138;
     --secondary-foreground: 23, 29, 40;
     --muted: 241, 245, 249;
     --muted-foreground: 101, 110, 127;
@@ -135,7 +139,7 @@ video {
 
     /* Text color variables */
     --text-primary: var(--foreground);
-    --text-secondary: 101, 110, 127;
+    --text-secondary: 138, 138, 138;
     --text-muted: var(--muted-foreground);
     --text-disabled: 156, 163, 175;
     --text-inverse: 255, 255, 255;

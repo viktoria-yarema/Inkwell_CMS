@@ -6,6 +6,7 @@ import {
 } from "@/shared/components/DropdownMenu";
 import { LogOut, User } from "lucide-react";
 import UserAvatar from "../UserAvatar";
+import { useProfileStore } from "@/entities/user/stores/useProfileModal";
 
 type DrawerContentProps = {
   user?: UserType;
@@ -13,6 +14,7 @@ type DrawerContentProps = {
 };
 
 const DrawerContent = ({ user, handleLogout }: DrawerContentProps) => {
+  const { setOpen } = useProfileStore();
   const canShowFullName = !!user?.firstName && !!user?.lastName;
   const fullName = `${user?.firstName} ${user?.lastName}`;
 
@@ -30,7 +32,7 @@ const DrawerContent = ({ user, handleLogout }: DrawerContentProps) => {
         </div>
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
+      <DropdownMenuItem onClick={() => setOpen(true)}>
         <User size={16} />
         Profile
       </DropdownMenuItem>

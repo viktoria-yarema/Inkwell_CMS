@@ -5,6 +5,7 @@ import { FC, PropsWithChildren } from "react";
 import useAuthStore from "@/entities/auth/stores/useAuthStore";
 import { LOGIN_PATH } from "@/shared/routes/paths";
 import Toaster from "@/shared/components/Toaster";
+import GlobalModals from "@/app/components/GlobalModals";
 
 const PrivateLayout: FC<PropsWithChildren> = () => {
   const { isAuthenticated } = useAuthStore();
@@ -23,6 +24,7 @@ const PrivateLayout: FC<PropsWithChildren> = () => {
         </div>
       </div>
       <Toaster />
+      <GlobalModals />
     </main>
   );
 };
