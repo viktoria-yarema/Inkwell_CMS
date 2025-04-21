@@ -16,7 +16,7 @@ const UserAvatar = ({ user }: UserAvatarProps) => {
   const canShowFullName = !!user?.firstName && !!user?.lastName;
 
   return (
-    <Avatar className="h-8 w-8 rounded-lg">
+    <Avatar className="h-8 w-8 rounded-full p-2 bg-white/70">
       {hasAvatarImage && (
         <AvatarImage src={user?.avatarUrl} alt={user?.firstName} />
       )}
