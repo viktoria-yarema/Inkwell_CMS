@@ -122,14 +122,10 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
                       id="firstName"
                       placeholder="Enter your first name"
                       {...field}
+                      error={errors.firstName?.message}
                     />
                   )}
                 />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm">
-                    {errors.firstName.message}
-                  </p>
-                )}
               </div>
               <div className="flex flex-col gap-2">
                 <Label
@@ -147,14 +143,10 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
                       id="lastName"
                       placeholder="Enter your last name"
                       {...field}
+                      error={errors.lastName?.message}
                     />
                   )}
                 />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm">
-                    {errors.lastName.message}
-                  </p>
-                )}
               </div>
             </div>
             <div className="flex flex-col gap-4">
@@ -178,14 +170,10 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
                         id="phoneNumber"
                         placeholder="Enter your phone number"
                         {...field}
+                        error={errors.phoneNumber?.message}
                       />
                     )}
                   />
-                  {errors.phoneNumber && (
-                    <p className="text-red-500 text-sm">
-                      {errors.phoneNumber.message}
-                    </p>
-                  )}
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label
@@ -204,14 +192,10 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
                         type="email"
                         placeholder="Enter your email"
                         {...field}
+                        error={errors.email?.message}
                       />
                     )}
                   />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm">
-                      {errors.email.message}
-                    </p>
-                  )}
                 </div>
               </div>
             </div>
