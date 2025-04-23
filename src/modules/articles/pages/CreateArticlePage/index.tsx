@@ -53,10 +53,8 @@ const CreateArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
-      // Process images in the editor content
       const { updatedContent } = await processEditorImages(content);
 
-      // Create article with the updated content
       createArticle(
         {
           title,
@@ -64,6 +62,8 @@ const CreateArticlePage = () => {
           status: selectedStatus.value as ArticleStatus,
           authorId: user.id,
           tags: selectedTags.map((tag) => tag.value),
+          description: "test",
+          coverImage: "/image.png",
         },
         {
           onSuccess: () => {

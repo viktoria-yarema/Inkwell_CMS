@@ -2,49 +2,82 @@
 
 ## Introduction
 
-`Inkwell CMS` is a modern content management system developed using cutting-edge web technologies including React, TypeScript, and Vite. The system leverages TailwindCSS with Shadcn UI components for styling, Tanstack React Query for efficient data fetching, and Zustand for state management. Designed with scalability and maintainability in mind, Inkwell CMS ensures a clear separation between UI components, business logic, and data operations.
+`Inkwell CMS` is a modern content management system developed using cutting-edge web technologies including React, TypeScript, and Vite. The system leverages TailwindCSS with Shadcn UI components for styling, Tanstack React Query for efficient data fetching, and Zustand for state management. Built with a focus on user experience and developer productivity, Inkwell CMS provides a robust platform for content creation and management.
 
 ## Features
-- **User-friendly Editor**: Rich text editing with EditorJS supporting various content formats
-- **Content Organization**: Categorize and tag content for easy navigation
-- **Customizable Themes**: Personalize the look and feel of your published content
-- **Responsive Design**: Optimized for viewing on various devices
-- **User Management**: Role-based access control for team collaboration
+- **Advanced Rich Text Editor**: Quill-based editor with comprehensive formatting options and image support
+- **Tag Management System**: Create, update, and organize content with a flexible tagging system
+- **User Profile Management**: Customizable user profiles with secure authentication
+- **Real-time Content Updates**: Instant content updates with optimistic UI and proper error handling
+- **Responsive Design**: Mobile-first approach ensuring seamless experience across all devices
+- **Modern UI Components**: Comprehensive set of accessible, customizable UI components
+- **Image Processing**: Built-in image upload and processing capabilities
+- **Role-based Access Control**: Granular permissions for team collaboration
 
 ## Project Structure
 
-The project follows a modular architecture that promotes separation of concerns, scalability, and maintainability. This architecture is organized into four main layers:
+The project follows a feature-based modular architecture that promotes clean code practices and maintainability. The architecture is organized into four main layers:
 
-This architecture follows the principle of unidirectional dependencies:
-- `app` can import from `modules`, `entities`, and `shared`
-- `modules` can import from `entities` and `shared`
-- `entities` can only import from `shared`
-- `shared` cannot import from any other layer
+### Core Layers
+1. **app**: Application shell, routing, and global components
+   - Global layouts and providers
+   - Shared modals and notifications
+   - Route configurations
 
-This structure ensures that:
-1. Higher layers can use functionality from lower layers
-2. Lower layers remain independent and reusable
-3. Changes in one module don't affect other modules
-4. Business logic is separated from UI components
-5. Common functionality is easily accessible throughout the application
+2. **modules**: Feature-specific business logic and UI
+   - Articles management
+   - Tag management
+   - User authentication
+   - Profile management
+
+3. **entities**: Domain models and data operations
+   - API interactions
+   - Data models and types
+   - State management stores
+   - Query and mutation hooks
+
+4. **shared**: Reusable utilities and components
+   - UI components library
+   - Utility functions
+   - Common hooks
+   - API middleware
+
+### Architectural Principles
+- **Unidirectional Dependencies**: Higher layers can only import from lower layers
+- **Feature Encapsulation**: Each module is self-contained with its own components, stores, and logic
+- **Component Composition**: UI built from small, reusable components
+- **Type Safety**: Comprehensive TypeScript usage throughout the codebase
 
 ## Technologies and Libraries
 
-- **React 19**: Latest version of React for building interactive user interfaces
-- **TypeScript**: Adds static typing to enhance developer experience and code quality
-- **Vite**: Fast and modern frontend build tool and development server
-- **React Router v7**: Declarative routing for React applications
-- **TailwindCSS**: Utility-first CSS framework for rapid UI development
-- **Shadcn UI**: High-quality, accessible, and customizable UI components
-- **EditorJS**: Block-styled editor with clean JSON output
-- **Tanstack React Query**: Data fetching, caching, and state management for API data
-- **Zustand**: Lightweight and flexible state management solution
-- **React Hook Form**: Performant and flexible form management
-- **Zod**: TypeScript-first schema validation
-- **Axios**: Promise-based HTTP client for API requests
-- **Radix UI**: Low-level, accessible UI component primitives
-- **Tanstack Table**: Headless UI for building powerful tables and datagrids
-- **date-fns**: Modern JavaScript date utility library
+### Core
+- **React 19**: Latest version with improved performance and hooks
+- **TypeScript**: Enhanced developer experience with static typing
+- **Vite**: Modern build tooling with instant HMR
+
+### UI and Styling
+- **TailwindCSS**: Utility-first CSS with custom configuration
+- **Shadcn UI**: High-quality, accessible component system
+- **Radix UI**: Headless UI primitives for complex components
+- **Lucide Icons**: Modern icon system
+
+### State Management and Data Fetching
+- **Tanstack React Query**: Powerful data synchronization
+- **Zustand**: Lightweight state management
+- **Zod**: Runtime type validation
+
+### Forms and Validation
+- **React Hook Form**: Performant form handling
+- **Zod Schema**: Type-safe form validation
+
+### Editor and Media
+- **Quill Editor**: Rich text editing with custom toolbar
+- **Image Processing**: Client-side image optimization
+
+### Development Tools
+- **ESLint**: Code quality and consistency
+- **Prettier**: Code formatting
+- **date-fns**: Modern date manipulation
 
 ## Getting Started
 

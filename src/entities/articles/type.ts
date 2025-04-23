@@ -9,6 +9,8 @@ export type Article = {
   authorId: string;
   status: ArticleStatus;
   tags: ArticleTagId[];
+  description: string;
+  coverImage: string;
 };
 
 export type CreateArticle = Omit<Article, "id" | "createdAt" | "updatedAt">;
