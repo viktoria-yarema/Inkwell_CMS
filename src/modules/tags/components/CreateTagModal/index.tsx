@@ -15,25 +15,37 @@ import { useCreateTagMutation } from "@/entities/tags/mutations/useCreateTagMuta
 import { useToast } from "@/shared/hooks/use-toast";
 import { AxiosError } from "axios";
 import { invalidateTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
+import IconPicker from "../IconPicker";
 
 const CreateTagModal: FC = () => {
   const { toast } = useToast();
 
   const [error, setError] = useState<string | null>(null);
-  const { tagName, setTagName, openCreateTagModal, setOpenCreateTagModal } =
-    useTagStore();
+  const {
+    tagName,
+    setTagName,
+    selectedIcon,
+    setSelectedIcon,
+    openCreateTagModal,
+    setOpenCreateTagModal,
+  } = useTagStore();
+
   const { mutate: createTag, isPending: isLoadingCreateTag } =
     useCreateTagMutation();
 
   const onClearModal = () => {
     setOpenCreateTagModal(false);
     setTagName("");
+    setSelectedIcon(undefined);
     setError(null);
   };
 
   const onConfirm = () => {
     createTag(
-      { title: tagName },
+      {
+        title: tagName,
+        icon: selectedIcon,
+      },
       {
         onSuccess: () => {
           toast({
@@ -41,7 +53,6 @@ const CreateTagModal: FC = () => {
             description: "Your tag has been created successfully",
           });
           onClearModal();
-          //TODO: make optimistic updates, update from query cache
           invalidateTagsQuery();
         },
         onError: (error) => {
@@ -60,21 +71,24 @@ const CreateTagModal: FC = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Create Tag</AlertDialogTitle>
         </AlertDialogHeader>
-        <div className="w-full">
-          <Input
-            placeholder="Enter tag name"
-            value={tagName}
-            onChange={(e) => setTagName(e.target.value)}
-            error={error}
-            className="h-12"
-          />
+        <div className="flex flex-col space-y-4">
+          <div className="w-full">
+            <Input
+              placeholder="Enter tag name"
+              value={tagName}
+              onChange={(e) => setTagName(e.target.value)}
+              error={error}
+              className="h-12"
+            />
+          </div>
+          <IconPicker value={selectedIcon} onChange={setSelectedIcon} />
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onClearModal}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             loading={isLoadingCreateTag}
-            disabled={isLoadingCreateTag}
+            disabled={isLoadingCreateTag || !tagName.trim()}
           >
             Continue
           </AlertDialogAction>

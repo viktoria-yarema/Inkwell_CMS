@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  ColumnSizingState,
 } from "@tanstack/react-table";
 
 import {
@@ -16,6 +17,7 @@ import {
   TableRow,
 } from "@/shared/components/Table";
 import { Button } from "./Button";
+import { useState } from "react";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -28,10 +30,22 @@ const DataTable = <TData, TValue>({
   data,
   onRowClick,
 }: DataTableProps<TData, TValue>) => {
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    defaultColumn: {
+      size: 76,
+      minSize: 24,
+      maxSize: 100,
+    },
+    state: {
+      columnSizing,
+    },
+    onColumnSizingChange: setColumnSizing,
+    columnResizeMode: "onChange",
   });
 
   const isDisabledPreviousButton =
@@ -48,7 +62,10 @@ const DataTable = <TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      style={{ width: header.getSize() }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -68,9 +85,13 @@ const DataTable = <TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => onRowClick?.(row.original)}
+                  className="hover:bg-gray-50 cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      style={{ width: cell.column.getSize() }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

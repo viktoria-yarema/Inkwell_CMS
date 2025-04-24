@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
-import { Tag } from "@/entities/tags/type";
+import { InkwellIcon, Tag } from "@/entities/tags/type";
 import TableDropdownMenu from "@/shared/components/TableDropdownMenu";
+import { iconComponents } from "./constants";
 
 type TagColumnsProps = {
   handleDeleteTag: (id: string) => void;
@@ -12,6 +13,21 @@ export const getTagColumns = ({
   handleDeleteTag,
   handleUpdateTag,
 }: TagColumnsProps): ColumnDef<Tag>[] => [
+  {
+    id: "icon",
+    accessorKey: "icon",
+    header: "Icon",
+    enableHiding: false,
+    size: 24,
+    cell: ({ row }) => {
+      const Icon = iconComponents[row.original.icon as InkwellIcon];
+      return (
+        <div className="flex w-12">
+          {Icon ? <Icon color="gray" size={16} /> : "-"}
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "title",
     header: "Title",
