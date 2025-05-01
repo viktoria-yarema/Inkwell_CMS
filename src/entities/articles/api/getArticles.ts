@@ -1,8 +1,23 @@
 import api from "@/shared/api/apiMiddleware";
 import { Article } from "../type";
-import { formatArticle } from "@/entities/articles/utils";
 
-export const getArticles = async (): Promise<Article[]> => {
-  const response = await api.get<Article[]>("/articles");
-  return response.data.map(formatArticle);
+type GetArticlesResponse = {
+  articles: Article[];
+  meta: {
+    total: number;
+    page: number;
+    totalPages: number;
+  };
+};
+
+type GetArticlesParams = {
+  page: number;
+  limit: number;
+};
+
+export const getArticles = async (
+  params: GetArticlesParams
+): Promise<GetArticlesResponse> => {
+  const response = await api.get<GetArticlesResponse>("/articles", { params });
+  return response.data;
 };

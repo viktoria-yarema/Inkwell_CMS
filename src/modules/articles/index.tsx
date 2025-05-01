@@ -7,7 +7,8 @@ import { useGetArticlesQuery } from "@/entities/articles/queries/useGetArticlesQ
 import { ARTICLE_PATH } from "@/shared/routes/paths";
 import { useDeleteArticleMutation } from "@/entities/articles/mutations/useDeleteArticleMutation";
 import DeleteModal from "../../shared/components/DeleteModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Article } from "@/entities/articles/type";
 
 const ArticlesPage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,11 @@ const ArticlesPage = () => {
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(
     null
   );
-  const { data: articles } = useGetArticlesQuery();
+  const [pageIndex, setPageIndex] = useState(0);
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetArticlesQuery({ limit: 1 });
+
   const { mutate: deleteArticle } = useDeleteArticleMutation();
 
   const handleDelete = (id: string) => {
@@ -24,6 +29,36 @@ const ArticlesPage = () => {
   };
 
   const columns = getArticleColumns({ handleDelete });
+
+  const currentPage = data?.pages[pageIndex]?.meta.page || 1;
+
+  const articles: Article[] = data?.pages[pageIndex]?.articles || [];
+
+  const totalPages = data?.pages[0]?.meta.totalPages || 1;
+
+  useEffect(() => {
+    if (data && pageIndex >= data.pages.length) {
+      setPageIndex(Math.max(0, data.pages.length - 1));
+    }
+  }, [data, pageIndex]);
+
+  const handleNextPage = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      if (pageIndex < data!.pages.length - 1) {
+        setPageIndex(pageIndex + 1);
+      } else {
+        fetchNextPage().then(() => {
+          setPageIndex(pageIndex + 1);
+        });
+      }
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (pageIndex > 0) {
+      setPageIndex(pageIndex - 1);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -38,10 +73,14 @@ const ArticlesPage = () => {
       <div className="mt-10">
         <DataTable
           columns={columns}
-          data={articles ?? []}
+          data={articles}
           onRowClick={(row) => {
             navigate(generatePath(ARTICLE_PATH, { id: row.id }));
           }}
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
         />
       </div>
       <DeleteModal

@@ -23,12 +23,20 @@ type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onRowClick?: (row: TData) => void;
+  handleNextPage?: () => void;
+  handlePreviousPage?: () => void;
+  currentPage?: number;
+  totalPages?: number;
 };
 
 const DataTable = <TData, TValue>({
   columns,
   data,
   onRowClick,
+  handleNextPage,
+  handlePreviousPage,
+  currentPage = 1,
+  totalPages = 1,
 }: DataTableProps<TData, TValue>) => {
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
 
@@ -48,10 +56,8 @@ const DataTable = <TData, TValue>({
     columnResizeMode: "onChange",
   });
 
-  const isDisabledPreviousButton =
-    !table.getCanPreviousPage() || table.getPageCount() <= 1;
-  const isDisabledNextButton =
-    !table.getCanNextPage() || table.getPageCount() <= 1;
+  const isDisabledPreviousButton = currentPage <= 1;
+  const isDisabledNextButton = currentPage >= totalPages;
 
   return (
     <div className="flex flex-col gap-4">
@@ -118,11 +124,14 @@ const DataTable = <TData, TValue>({
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
-        <div className="space-x-2">
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </span>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={handlePreviousPage || (() => table.previousPage())}
             disabled={isDisabledPreviousButton}
           >
             Previous
@@ -130,7 +139,7 @@ const DataTable = <TData, TValue>({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={handleNextPage || (() => table.nextPage())}
             disabled={isDisabledNextButton}
           >
             Next

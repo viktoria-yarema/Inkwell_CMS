@@ -14,6 +14,8 @@ import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 import { processEditorImages } from "@/shared/utils/processEditorImages";
 import { useNavigate } from "react-router-dom";
 import { ARTICLES_PATH } from "@/shared/routes/paths";
+import CoverImageUpload from "@/shared/components/CoverImageUpload";
+import { uploadImage } from "@/entities/articles/api/uploadImage";
 
 const CreateArticlePage = () => {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const CreateArticlePage = () => {
   const { data: tags = [] } = useGetTagsQuery();
   const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
 
   const { mutate: createArticle, isPending: isPendingCreateArticle } =
     useCreateArticleMutation();
@@ -53,6 +56,11 @@ const CreateArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
+      if (coverImage) {
+        const coverImageUploadData = await uploadImage(coverImage);
+        console.log(coverImageUploadData);
+      }
+
       const { updatedContent } = await processEditorImages(content);
 
       createArticle(
@@ -63,7 +71,7 @@ const CreateArticlePage = () => {
           authorId: user.id,
           tags: selectedTags.map((tag) => tag.value),
           description: "test",
-          coverImage: "/image.png",
+          coverImage: "/cover.png",
         },
         {
           onSuccess: () => {
@@ -116,6 +124,13 @@ const CreateArticlePage = () => {
           Save
         </Button>
       </div>
+      <CoverImageUpload
+        initialImage={coverImage?.name || undefined}
+        onImageUpload={async (file) => {
+          setCoverImage(file);
+        }}
+        onImageRemove={() => setCoverImage(null)}
+      />
       <ArticleTitle title={title} setTitle={setTitle} />
       <div className="flex flex-col gap-2">
         <MultiSelect
