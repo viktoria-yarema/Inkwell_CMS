@@ -9,6 +9,7 @@ import { useDeleteArticleMutation } from "@/entities/articles/mutations/useDelet
 import DeleteModal from "../../shared/components/DeleteModal";
 import { useState, useEffect } from "react";
 import { Article } from "@/entities/articles/type";
+import { ARTICLE_LIMIT } from "./constants";
 
 const ArticlesPage = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ArticlesPage = () => {
   const [pageIndex, setPageIndex] = useState(0);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetArticlesQuery({ limit: 1 });
+    useGetArticlesQuery({ limit: ARTICLE_LIMIT });
 
   const { mutate: deleteArticle } = useDeleteArticleMutation();
 
@@ -28,7 +29,11 @@ const ArticlesPage = () => {
     setOpen(true);
   };
 
-  const columns = getArticleColumns({ handleDelete });
+  const handleUpdate = (id: string) => {
+    navigate(generatePath(ARTICLE_PATH, { id }));
+  };
+
+  const columns = getArticleColumns({ handleDelete, handleUpdate });
 
   const currentPage = data?.pages[pageIndex]?.meta.page || 1;
 
@@ -74,9 +79,6 @@ const ArticlesPage = () => {
         <DataTable
           columns={columns}
           data={articles}
-          onRowClick={(row) => {
-            navigate(generatePath(ARTICLE_PATH, { id: row.id }));
-          }}
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           currentPage={currentPage}

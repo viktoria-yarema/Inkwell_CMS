@@ -56,9 +56,11 @@ const CreateArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
+      let coverImageUrl = "";
+
       if (coverImage) {
         const coverImageUploadData = await uploadImage(coverImage);
-        console.log(coverImageUploadData);
+        coverImageUrl = coverImageUploadData?.imageId;
       }
 
       const { updatedContent } = await processEditorImages(content);
@@ -71,7 +73,7 @@ const CreateArticlePage = () => {
           authorId: user.id,
           tags: selectedTags.map((tag) => tag.value),
           description: "test",
-          coverImage: "/cover.png",
+          coverImage: `/${coverImageUrl}`,
         },
         {
           onSuccess: () => {

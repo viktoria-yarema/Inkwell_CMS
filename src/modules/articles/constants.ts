@@ -20,3 +20,5 @@ export const STATUS_OPTIONS = [
     Icon: Loader,
   },
 ];
+
+export const ARTICLE_LIMIT = 10;

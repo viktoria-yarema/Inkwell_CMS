@@ -29,11 +29,12 @@ export const invalidateArticlesQuery = () => {
   queryClient.invalidateQueries({ queryKey: [ARTICLES_QUERY_KEY] });
 };
 
-export const getCachedArticleById = (id?: string) => {
+export const getCachedArticleById = (id?: string, limit?: number) => {
   if (!id) return undefined;
+
   const articlesData = queryClient.getQueryData<{
     pages: { articles: Article[] }[];
-  }>([ARTICLES_QUERY_KEY]);
+  }>([ARTICLES_QUERY_KEY, { limit }]);
 
   if (!articlesData) return undefined;
 

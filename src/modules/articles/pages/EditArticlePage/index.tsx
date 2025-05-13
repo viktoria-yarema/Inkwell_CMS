@@ -2,7 +2,7 @@ import { Button } from "@/shared/components/Button";
 import { SelectOption } from "@/shared/components/SelectButton";
 import QuillEditor from "@/shared/components/QuillEditor";
 import ArticleTitle from "../../components/ArticleTitle";
-import { STATUS_OPTIONS } from "../../constants";
+import { ARTICLE_LIMIT, STATUS_OPTIONS } from "../../constants";
 import SelectButton from "@/shared/components/SelectButton";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { useEffect, useState } from "react";
@@ -18,7 +18,9 @@ import { MultiSelect, MultiSelectItem } from "@/shared/components/MultiSelect";
 import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 import { processEditorImages } from "@/shared/utils/processEditorImages";
 import { processEditorContent } from "@/shared/utils/processEditorContent";
-
+import CoverImageUpload from "@/shared/components/CoverImageUpload";
+import { uploadImage } from "@/entities/articles/api/uploadImage";
+import { getImageUrl } from "@/shared/utils/getImageUrl";
 const EditArticlePage = () => {
   const { id } = useParams();
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -28,6 +30,7 @@ const EditArticlePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(JSON.stringify({ ops: [] }));
   const [isProcessingImages, setIsProcessingImages] = useState(false);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
 
   const { data: user, isSuccess: isSuccessUser } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
@@ -36,7 +39,7 @@ const EditArticlePage = () => {
 
   const { toast } = useToast();
 
-  const article = getCachedArticleById(id);
+  const article = getCachedArticleById(id, ARTICLE_LIMIT);
 
   useEffect(() => {
     if (article && isSuccessTags && isSuccessUser) {
@@ -87,6 +90,13 @@ const EditArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
+      let coverImageUrl = "";
+
+      if (coverImage) {
+        const coverImageUploadData = await uploadImage(coverImage);
+        coverImageUrl = coverImageUploadData?.imageId;
+      }
+
       const { updatedContent } = await processEditorImages(content);
 
       updateArticle(
@@ -96,6 +106,7 @@ const EditArticlePage = () => {
           content: updatedContent,
           status: selectedStatus.value as ArticleStatus,
           tags: selectedTags.map((tag) => tag.value),
+          coverImage: `/${coverImageUrl}`,
         },
         {
           onSuccess: () => {
@@ -147,6 +158,16 @@ const EditArticlePage = () => {
           Save
         </Button>
       </div>
+      <CoverImageUpload
+        initialImage={getImageUrl(
+          `/articles${article?.coverImage}`,
+          user?.id ?? ""
+        )}
+        onImageUpload={async (file) => {
+          setCoverImage(file);
+        }}
+        onImageRemove={() => setCoverImage(null)}
+      />
       <ArticleTitle title={title} setTitle={setTitle} />
       <div className="flex flex-col gap-2">
         <MultiSelect

@@ -6,10 +6,12 @@ import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
 
 type ArticleColumnsProps = {
   handleDelete: (id: string) => void;
+  handleUpdate: (id: string) => void;
 };
 
 export const getArticleColumns = ({
   handleDelete,
+  handleUpdate,
 }: ArticleColumnsProps): ColumnDef<Article>[] => [
   {
     accessorKey: "title",
@@ -43,7 +45,15 @@ export const getArticleColumns = ({
         <TableDropdownMenu handleDelete={() => handleDelete(row.original.id)}>
           <DropdownMenuItem
             onClick={(e) => {
-              e.stopPropagation();
+              e.preventDefault();
+              handleUpdate(row.original.id);
+            }}
+          >
+            Update
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.preventDefault();
               handleDelete(row.original.id);
             }}
             className="text-red-500 !hover:bg-red-500 !hover:text-white"
