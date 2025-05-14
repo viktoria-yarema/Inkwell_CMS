@@ -20,7 +20,6 @@ class DividerBlot extends Embed {
 DividerBlot.blotName = "divider";
 DividerBlot.tagName = "hr";
 
-// Register our custom blot
 Quill.register(DividerBlot);
 
 interface QuillEditorProps {
@@ -44,7 +43,6 @@ export default function QuillEditor({
     `toolbar-${Math.random().toString(36).substring(2, 9)}`
   );
 
-  // Initialize Quill
   useEffect(() => {
     if (!mounted) {
       setMounted(true);
@@ -53,7 +51,6 @@ export default function QuillEditor({
 
     if (!editorRef.current) return;
 
-    // Define toolbar options
     const toolbarOptions = {
       container: `#${toolbarId.current}`,
       handlers: {
@@ -69,7 +66,6 @@ export default function QuillEditor({
       },
     };
 
-    // Initialize Quill only once
     if (!quillInstanceRef.current) {
       const quill = new Quill(editorRef.current, {
         modules: {
@@ -79,21 +75,18 @@ export default function QuillEditor({
         theme: "snow",
       });
 
-      // Set initial content
       if (value) {
         try {
-          // Decode HTML entities before parsing JSON
           const decodedValue = decodeHtmlEntities(value);
           const delta = JSON.parse(decodedValue);
           quill.setContents(delta);
         } catch (e) {
           console.error("Error parsing delta:", e);
-          // If parsing fails, try to set as plain text
+
           quill.setText(value);
         }
       }
 
-      // Listen for changes
       quill.on("text-change", () => {
         const contents = quill.getContents();
         onChange(JSON.stringify(contents));
@@ -102,41 +95,34 @@ export default function QuillEditor({
       quillInstanceRef.current = quill;
     }
 
-    // Cleanup
     return () => {
       quillInstanceRef.current = null;
     };
-  }, [mounted, placeholder]); // Remove value and onChange from dependencies
+  }, [mounted, placeholder]);
 
-  // Handle external value changes
   useEffect(() => {
     const quill = quillInstanceRef.current;
     if (!quill || !mounted) return;
 
-    // Only update content if it's different from current content
     const currentContent = JSON.stringify(quill.getContents());
 
     if (value) {
       try {
-        // Decode HTML entities before parsing JSON
         const decodedValue = decodeHtmlEntities(value);
         const parsedValue = JSON.parse(decodedValue);
         const parsedValueStr = JSON.stringify(parsedValue);
 
         if (parsedValueStr !== currentContent) {
-          // Store current selection
           const selection = quill.getSelection();
 
-          // Temporarily remove the text-change handler
           quill.off("text-change");
           quill.setContents(parsedValue);
-          // Re-add the text-change handler
+
           quill.on("text-change", () => {
             const contents = quill.getContents();
             onChange(JSON.stringify(contents));
           });
 
-          // Restore selection if it existed
           if (selection) {
             setTimeout(() => quill.setSelection(selection), 0);
           }
@@ -147,11 +133,9 @@ export default function QuillEditor({
     }
   }, [value, mounted, onChange]);
 
-  // Add CSS for divider and images
   useEffect(() => {
     if (!mounted) return;
 
-    // Add custom CSS for the divider and images
     const style = document.createElement("style");
     style.innerHTML = `
       .ql-divider {

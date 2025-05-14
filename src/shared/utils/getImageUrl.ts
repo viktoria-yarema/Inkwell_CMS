@@ -6,5 +6,5 @@ export const getImageUrl = (imageUrl: string, userId = "test") => {
   }
 
   const bucketPath = import.meta.env.VITE_GOOGLE_STORAGE_BUCKET || "bucket";
-  return `${bucketPath}/${userId}${imageUrl}`;
+  return `${bucketPath}/${userId}/${imageUrl}`;
 };

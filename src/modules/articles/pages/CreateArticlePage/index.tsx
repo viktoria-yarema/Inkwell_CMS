@@ -15,7 +15,7 @@ import { processEditorImages } from "@/shared/utils/processEditorImages";
 import { useNavigate } from "react-router-dom";
 import { ARTICLES_PATH } from "@/shared/routes/paths";
 import CoverImageUpload from "@/shared/components/CoverImageUpload";
-import { uploadImage } from "@/entities/articles/api/uploadImage";
+import { useCoverImage } from "../../hooks/useCoverImage";
 
 const CreateArticlePage = () => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const CreateArticlePage = () => {
   const { data: tags = [] } = useGetTagsQuery();
   const [selectedTags, setSelectedTags] = useState<MultiSelectItem[]>([]);
   const [isProcessingImages, setIsProcessingImages] = useState(false);
-  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const { setCoverImage, handleCoverImage, coverImage } = useCoverImage();
 
   const { mutate: createArticle, isPending: isPendingCreateArticle } =
     useCreateArticleMutation();
@@ -56,24 +56,20 @@ const CreateArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
-      let coverImageUrl = "";
-
-      if (coverImage) {
-        const coverImageUploadData = await uploadImage(coverImage);
-        coverImageUrl = coverImageUploadData?.imageId;
-      }
-
-      const { updatedContent } = await processEditorImages(content);
+      const [updatedContent, coverImageName] = await Promise.all([
+        processEditorImages(content),
+        handleCoverImage(),
+      ]);
 
       createArticle(
         {
           title,
-          content: updatedContent,
+          content: updatedContent.updatedContent,
           status: selectedStatus.value as ArticleStatus,
           authorId: user.id,
           tags: selectedTags.map((tag) => tag.value),
           description: "test",
-          coverImage: `/${coverImageUrl}`,
+          coverImage: `${coverImageName}`,
         },
         {
           onSuccess: () => {

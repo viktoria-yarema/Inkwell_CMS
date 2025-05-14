@@ -19,8 +19,9 @@ import { useGetTagsQuery } from "@/entities/tags/queries/useGetTagsQuery";
 import { processEditorImages } from "@/shared/utils/processEditorImages";
 import { processEditorContent } from "@/shared/utils/processEditorContent";
 import CoverImageUpload from "@/shared/components/CoverImageUpload";
-import { uploadImage } from "@/entities/articles/api/uploadImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
+import { useCoverImage } from "../../hooks/useCoverImage";
+
 const EditArticlePage = () => {
   const { id } = useParams();
   const [selectedStatus, setSelectedStatus] = useState<SelectOption>(
@@ -30,7 +31,7 @@ const EditArticlePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState(JSON.stringify({ ops: [] }));
   const [isProcessingImages, setIsProcessingImages] = useState(false);
-  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const { setCoverImage, handleCoverImage } = useCoverImage();
 
   const { data: user, isSuccess: isSuccessUser } = useUserQuery();
   const { mutate: updateArticle, isPending: isPendingUpdateArticle } =
@@ -90,23 +91,19 @@ const EditArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
-      let coverImageUrl = "";
-
-      if (coverImage) {
-        const coverImageUploadData = await uploadImage(coverImage);
-        coverImageUrl = coverImageUploadData?.imageId;
-      }
-
-      const { updatedContent } = await processEditorImages(content);
+      const [updatedContent, coverImageName] = await Promise.all([
+        processEditorImages(content),
+        handleCoverImage(),
+      ]);
 
       updateArticle(
         {
           ...article,
           title,
-          content: updatedContent,
+          content: updatedContent.updatedContent,
           status: selectedStatus.value as ArticleStatus,
           tags: selectedTags.map((tag) => tag.value),
-          coverImage: `/${coverImageUrl}`,
+          coverImage: `${coverImageName}`,
         },
         {
           onSuccess: () => {
@@ -160,7 +157,7 @@ const EditArticlePage = () => {
       </div>
       <CoverImageUpload
         initialImage={getImageUrl(
-          `/articles${article?.coverImage}`,
+          `articles/${article?.coverImage}`,
           user?.id ?? ""
         )}
         onImageUpload={async (file) => {
