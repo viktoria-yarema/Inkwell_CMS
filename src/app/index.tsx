@@ -11,12 +11,14 @@ import {
   ARTICLES_PATH,
   HOME_PATH,
   LOGIN_PATH,
+  PAGE_CONTENT_PATH,
   SIGNUP_PATH,
 } from "../shared/routes/paths";
 import ReactQueryProvider from "@/shared/providers/ReactQueryProvider";
 import PublicLayout from "./layouts/PublicLayout";
 import { generateRoutes } from "../shared/routes/helpers";
 import SignupPage from "@/modules/auth/pages/SignupPage";
+import PageContent from "@/modules/page-content";
 
 const App: FC = () => {
   const router = createBrowserRouter([
@@ -29,6 +31,10 @@ const App: FC = () => {
       path: "/",
       element: <PrivateLayout />,
       children: generateRoutes(routes),
+    },
+    {
+      path: PAGE_CONTENT_PATH,
+      element: <PageContent />,
     },
     {
       path: LOGIN_PATH,

@@ -5,3 +5,4 @@ export const LOGIN_PATH = "/login";
 export const SIGNUP_PATH = "/signup";
 export const HOME_PATH = "/";
 export const TAGS_PATH = "/tags";
+export const PAGE_CONTENT_PATH = "/page-content";

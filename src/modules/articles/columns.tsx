@@ -3,6 +3,7 @@ import { Article, ArticleStatus } from "@/entities/articles/type";
 import { Badge } from "@/shared/components/Badge";
 import TableDropdownMenu from "@/shared/components/TableDropdownMenu";
 import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
+import { format } from "date-fns";
 
 type ArticleColumnsProps = {
   handleDelete: (id: string) => void;
@@ -20,6 +21,10 @@ export const getArticleColumns = ({
   {
     accessorKey: "updatedAt",
     header: "Updated At",
+    cell: ({ row }) => {
+      const updatedAt = row.original.updatedAt;
+      return <div>{format(updatedAt, "dd.MM.yyyy HH:mm")}</div>;
+    },
   },
   {
     accessorKey: "status",

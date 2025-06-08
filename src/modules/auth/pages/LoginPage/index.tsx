@@ -16,7 +16,7 @@ export function LoginPage({
   return (
     <div
       className={cn(
-        "flex flex-col gap-6 m-auto max-w-[600px] max-h-[600px] translate-y-1/2 px-6",
+        "flex flex-col gap-6 m-auto max-w-[600px] max-h-[600px] translate-y-1/2 lg:translate-y-1/4 px-6",
         className
       )}
       {...props}

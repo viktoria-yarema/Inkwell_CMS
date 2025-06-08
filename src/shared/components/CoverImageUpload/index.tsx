@@ -74,7 +74,7 @@ const CoverImageUpload = ({
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="rounded-full h-8 w-8 shadow-md"
+                className="rounded-full bg-white/60 h-8 w-8 shadow-md"
               >
                 <ImagePlus className="h-4 w-4" />
               </Button>
