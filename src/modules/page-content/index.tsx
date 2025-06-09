@@ -13,21 +13,10 @@ import {
   CardTitle,
 } from "@/shared/components/Card";
 import { ContentTable } from "./components/ContentTable";
-import { EditSectionSheet } from "./components/EditSectionSheet";
-import { usePageContent } from "./hooks/usePageContent";
 import { PageContentType } from "./types";
+import HederForm from "./components/Forms/home/HeaderForm";
 
 const PageContent: React.FC = () => {
-  const {
-    selectedSection,
-    isSheetOpen,
-    handleSectionClick,
-    handleSheetClose,
-    handleFieldUpdate,
-    handleSaveSection,
-    getSectionsForPage,
-  } = usePageContent();
-
   const [currentPageType, setCurrentPageType] =
     React.useState<PageContentType>("home");
 
@@ -36,7 +25,7 @@ const PageContent: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full p-6">
+    <div className="flex flex-col gap-6 w-full px-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
           Page Content Management
@@ -68,10 +57,7 @@ const PageContent: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ContentTable
-                sections={getSectionsForPage("home")}
-                onSectionEdit={handleSectionClick}
-              />
+              <HederForm />
             </CardContent>
           </Card>
         </TabsContent>
@@ -86,10 +72,7 @@ const PageContent: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ContentTable
-                sections={getSectionsForPage("articles")}
-                onSectionEdit={handleSectionClick}
-              />
+              <ContentTable sections={[]} onSectionEdit={() => {}} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -104,23 +87,11 @@ const PageContent: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ContentTable
-                sections={getSectionsForPage("about")}
-                onSectionEdit={handleSectionClick}
-              />
+              <ContentTable sections={[]} onSectionEdit={() => {}} />
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-
-      <EditSectionSheet
-        isOpen={isSheetOpen}
-        onClose={handleSheetClose}
-        section={selectedSection}
-        onFieldUpdate={handleFieldUpdate}
-        onSave={handleSaveSection}
-        currentPageType={currentPageType}
-      />
     </div>
   );
 };

@@ -6,6 +6,8 @@ const GlobalModals = () => {
   const { open, setOpen } = useProfileStore();
   const { data: user } = useUserQuery();
 
+  console.log(user, "user");
+
   return <ProfileDialog open={open} setOpen={setOpen} user={user} />;
 };
 

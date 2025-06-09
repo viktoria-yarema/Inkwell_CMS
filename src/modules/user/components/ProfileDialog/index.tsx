@@ -57,6 +57,8 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
       setValue("phoneNumber", user?.phoneNumber ?? "");
       setValue("email", user?.email ?? "");
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, open]);
 
   const onSubmit = (data: ProfileFormData) => {

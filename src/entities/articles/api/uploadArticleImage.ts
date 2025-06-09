@@ -1,11 +1,11 @@
 import api from "@/shared/api/apiMiddleware";
 
-export const uploadImage = async (file: File) => {
+export const uploadArticleImage = async (file: File) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await api.post("/images/upload", formData, {
+    const response = await api.post("/images/upload-article", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

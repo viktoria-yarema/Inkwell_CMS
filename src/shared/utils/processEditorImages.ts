@@ -1,4 +1,4 @@
-import { uploadImage } from "@/entities/articles/api/uploadImage";
+import { uploadArticleImage } from "@/entities/articles/api/uploadArticleImage";
 
 type ProcessImagesResult = {
   updatedContent: string;
@@ -36,7 +36,7 @@ export const processEditorImages = async (
         const file = new File([blob], fileName, { type: blob.type });
 
         try {
-          const uploadFileData = await uploadImage(file);
+          const uploadFileData = await uploadArticleImage(file);
           const uploadUrl = uploadFileData.image.url;
           const pathMatch = uploadUrl.match(/\/([^/]+)\/articles\/(.+)$/);
           if (pathMatch) {

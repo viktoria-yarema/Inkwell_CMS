@@ -21,7 +21,6 @@ export const ContentTable: React.FC<ContentTableProps> = ({
   onSectionEdit,
 }) => {
   const getSectionPreview = (section: ContentSection): string => {
-    // Show a preview of the first field's value
     if (section.fields.length > 0) {
       const firstField = section.fields[0];
       return firstField.value || "No content";

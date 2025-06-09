@@ -11,7 +11,6 @@ export type ContentSection = {
   fields: BaseField[];
 };
 
-// Home Page Content Types
 export type HomeContent = {
   header: {
     id: string;

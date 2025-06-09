@@ -1,4 +1,4 @@
-import { uploadImage } from "@/entities/articles/api/uploadImage";
+import { uploadArticleImage } from "@/entities/articles/api/uploadArticleImage";
 import { useState } from "react";
 
 export const useCoverImage = () => {
@@ -8,7 +8,7 @@ export const useCoverImage = () => {
     let coverImageName = "";
 
     if (coverImage) {
-      const coverImageUploadData = await uploadImage(coverImage);
+      const coverImageUploadData = await uploadArticleImage(coverImage);
       coverImageName = coverImageUploadData?.imageId;
     }
 

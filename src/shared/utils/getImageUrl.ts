@@ -1,4 +1,4 @@
-export const getImageUrl = (imageUrl: string, userId = "test") => {
+export const getImageUrl = (imageUrl: string, userId = "test-user-id") => {
   if (!imageUrl) return imageUrl;
 
   if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {

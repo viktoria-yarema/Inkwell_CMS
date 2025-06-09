@@ -98,6 +98,8 @@ export default function QuillEditor({
     return () => {
       quillInstanceRef.current = null;
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, placeholder]);
 
   useEffect(() => {
