@@ -15,7 +15,7 @@ import {
 } from "./validators/about";
 import { articlesSchema } from "./validators/articles";
 
-export enum StaticPageContentVariants {
+export enum PageContentVariants {
   HOME = "home",
   ABOUT = "about",
   ARTICLES = "articles",
@@ -73,9 +73,9 @@ export type AboutPageContent = {
 export type ArticlesPageContent = z.infer<typeof articlesSchema>;
 
 export type PageContent = {
-  [StaticPageContentVariants.HOME]: HomePageContent;
-  [StaticPageContentVariants.ARTICLES]: ArticlesPageContent;
-  [StaticPageContentVariants.ABOUT]: AboutPageContent;
+  [PageContentVariants.HOME]: HomePageContent;
+  [PageContentVariants.ARTICLES]: ArticlesPageContent;
+  [PageContentVariants.ABOUT]: AboutPageContent;
 };
 
 export type User = {
@@ -96,6 +96,6 @@ export type UpdateUser = Partial<
 
 export type UploadPageContentImageRequest = {
   file: File;
-  pageVariant: StaticPageContentVariants;
+  pageVariant: PageContentVariants;
   section: string;
 };

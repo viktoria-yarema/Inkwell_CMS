@@ -1,4 +1,4 @@
-import React from "react";
+import { FC, useState } from "react";
 import {
   Tabs,
   TabsContent,
@@ -12,24 +12,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/Card";
-import { ContentTable } from "./components/ContentTable";
-import { PageContentType } from "./types";
-import HederForm from "./components/Forms/home/HeaderForm";
+import { ContentTabs } from "./components/ContentTabs";
+import { PageContentVariants } from "@/entities/user/type";
+import { pageTabs } from "./constants";
 
-const PageContent: React.FC = () => {
-  const [currentPageType, setCurrentPageType] =
-    React.useState<PageContentType>("home");
+const PageContent: FC = () => {
+  const [currentPageType, setCurrentPageType] = useState<PageContentVariants>(
+    PageContentVariants.HOME
+  );
 
   const handleTabChange = (value: string) => {
-    setCurrentPageType(value as PageContentType);
+    setCurrentPageType(value as PageContentVariants);
   };
 
   return (
     <div className="flex flex-col gap-6 w-full px-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Page Content Management
-        </h1>
         <p className="text-muted-foreground">
           Manage static content for your website pages. Click on any section to
           edit its content.
@@ -42,55 +40,28 @@ const PageContent: React.FC = () => {
         className="w-full"
       >
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="home">Home</TabsTrigger>
-          <TabsTrigger value="articles">Articles</TabsTrigger>
-          <TabsTrigger value="about">About</TabsTrigger>
+          {pageTabs.map((tab) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {tab.label}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
-        <TabsContent value="home" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Home Page Content</CardTitle>
-              <CardDescription>
-                Manage the content sections displayed on your home page
-                including header, hero, articles preview, and footer.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <HederForm />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="articles" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Articles Page Content</CardTitle>
-              <CardDescription>
-                Manage the content sections for your articles page. This section
-                is currently empty and will be populated in the future.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ContentTable sections={[]} onSectionEdit={() => {}} />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="about" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>About Page Content</CardTitle>
-              <CardDescription>
-                Manage your personal information, professional experience,
-                philosophy, education, and skills displayed on the about page.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ContentTable sections={[]} onSectionEdit={() => {}} />
-            </CardContent>
-          </Card>
-        </TabsContent>
+        {pageTabs.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value} className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>{tab.label} Page Content</CardTitle>
+                <CardDescription>
+                  {tab.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ContentTabs pageType={tab.value} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
   );

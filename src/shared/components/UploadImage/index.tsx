@@ -48,7 +48,7 @@ const UploadImage: FC<UploadImageProps> = ({
               }
             }}
             disabled={isSubmitting}
-            className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80"
+            className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80 w-fit"
           />
         ) : (
           <div className="space-y-2">
@@ -71,7 +71,7 @@ const UploadImage: FC<UploadImageProps> = ({
               </Button>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-fit">
               <Input
                 type="file"
                 accept="image/*"
@@ -82,7 +82,7 @@ const UploadImage: FC<UploadImageProps> = ({
                   }
                 }}
                 disabled={isSubmitting}
-                className="text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-medium file:bg-muted file:text-muted-foreground hover:file:bg-muted/80"
+                className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80 w-fit"
               />
             </div>
           </div>

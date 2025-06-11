@@ -1,9 +1,9 @@
 import { useUploadPageContentImageMutation } from "../mutations/useUploadPageContentImageMutation";
-import { StaticPageContentVariants } from "../type";
+import { PageContentVariants } from "../type";
 
 type UploadPageImageProps = {
   file: File;
-  pageVariant: StaticPageContentVariants;
+  pageVariant: PageContentVariants;
   section: string;
 };
 

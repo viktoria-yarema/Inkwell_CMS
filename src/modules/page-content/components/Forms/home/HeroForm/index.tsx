@@ -11,17 +11,18 @@ import { HomeSections, PageContentVariants } from "@/entities/user/type";
 import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
 import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
+import { Textarea } from "@/shared/components/Textarea";
 
 const formSchema = z.object({
-  brandName: z.string().min(1, "Brand name is required"),
-  logoUrl: z.instanceof(File).optional(),
+  title: z.string().min(1, "Title is required"),
+  subtitle: z.string().min(1, "Subtitle is required"),
+  imageUrl: z.instanceof(File).optional(),
 });
 
-const HeaderForm: FC = () => {
+const HeroForm: FC = () => {
   const { data: user } = useUserQuery();
   const pageContent = user?.pageContent;
-  const content =
-    pageContent?.[PageContentVariants.HOME]?.[HomeSections.HEADER];
+  const content = pageContent?.[PageContentVariants.HOME]?.[HomeSections.HERO];
 
   const { mutateAsync: updateUser, isPending: isSubmitting } =
     useUpdateUserMutation();
@@ -32,40 +33,45 @@ const HeaderForm: FC = () => {
   >({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      brandName: "",
-      logoUrl: undefined,
+      title: "",
+      subtitle: "",
+      imageUrl: undefined,
     },
   });
 
   useEffect(() => {
-    if (content?.brandName) {
-      setValue("brandName", content.brandName);
+    if (content?.title) {
+      setValue("title", content.title);
+    }
+
+    if (content?.subtitle) {
+      setValue("subtitle", content.subtitle);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content?.brandName]);
+  }, [content?.title, content?.subtitle, content?.imageUrl]);
 
   const newData = watch();
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    if (data.logoUrl) {
+    if (data.imageUrl) {
       const imageUrl = await handleUploadImage({
-        file: data.logoUrl,
+        file: data.imageUrl,
         pageVariant: PageContentVariants.HOME,
-        section: HomeSections.HEADER,
+        section: HomeSections.HERO,
       });
-
-      if (imageUrl && content && newData.brandName && newData.logoUrl) {
+    
+      if (imageUrl && content && newData.title && newData.subtitle) {
         await updateUser({
           ...user,
           pageContent: {
             ...pageContent,
             [PageContentVariants.HOME]: {
               ...pageContent?.[PageContentVariants.HOME],
-              [HomeSections.HEADER]: {
+              [HomeSections.HERO]: {
                 ...content,
                 ...newData,
-                logoUrl: imageUrl,
+                imageUrl: imageUrl,
               },
             },
           },
@@ -75,8 +81,8 @@ const HeaderForm: FC = () => {
   };
 
   const initialPreviewUrl = useMemo(
-    () => getImageUrl(`page-content/${content?.logoUrl || ""}`, user?.id),
-    [user?.id, content?.logoUrl]
+    () => getImageUrl(`page-content/${content?.imageUrl || ""}`, user?.id),
+    [user?.id, content?.imageUrl]
   );
 
   return (
@@ -84,11 +90,21 @@ const HeaderForm: FC = () => {
       <Controller
         render={({ field }) => (
           <div className="flex flex-col gap-2">
-            <Label htmlFor={field.name}>Brand Name</Label>
+            <Label htmlFor={field.name}>Title</Label>
             <Input {...field} />
           </div>
         )}
-        name="brandName"
+        name="title"
+        control={control}
+      />
+      <Controller
+        render={({ field }) => (
+          <div className="flex flex-col gap-2">
+            <Label htmlFor={field.name}>Subtitle</Label>
+            <Textarea {...field} className="min-h-[80px]" />
+          </div>
+        )}
+        name="title"
         control={control}
       />
       <Controller
@@ -99,12 +115,12 @@ const HeaderForm: FC = () => {
               isSubmitting={isSubmitting}
               initialPreviewUrl={initialPreviewUrl}
               onFieldUpdate={(newValue) => {
-                setValue("logoUrl", newValue);
+                setValue("imageUrl", newValue);
               }}
             />
           </div>
         )}
-        name="logoUrl"
+        name="imageUrl"
         control={control}
       />
       <Button
@@ -121,4 +137,4 @@ const HeaderForm: FC = () => {
   );
 };
 
-export default HeaderForm;
+export default HeroForm;
