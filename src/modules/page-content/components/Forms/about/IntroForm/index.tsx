@@ -7,7 +7,7 @@ import UploadImage from "@/shared/components/UploadImage";
 import { Button } from "@/shared/components/Button";
 import { FC, useEffect, useMemo } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
-import { HomeSections, PageContentVariants } from "@/entities/user/type";
+import { AboutSections, PageContentVariants } from "@/entities/user/type";
 import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
 import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
@@ -19,10 +19,11 @@ const formSchema = z.object({
   imageUrl: z.instanceof(File).optional(),
 });
 
-const HeroForm: FC = () => {
+const IntroForm: FC = () => {
   const { data: user } = useUserQuery();
   const pageContent = user?.pageContent;
-  const content = pageContent?.[PageContentVariants.HOME]?.[HomeSections.HERO];
+  const content =
+    pageContent?.[PageContentVariants.ABOUT]?.[AboutSections.INTRO];
 
   const { mutateAsync: updateUser, isPending: isSubmitting } =
     useUpdateUserMutation();
@@ -57,8 +58,8 @@ const HeroForm: FC = () => {
     if (data.imageUrl) {
       const imageUrl = await handleUploadImage({
         file: data.imageUrl,
-        pageVariant: PageContentVariants.HOME,
-        section: HomeSections.HERO,
+        pageVariant: PageContentVariants.ABOUT,
+        section: AboutSections.INTRO,
       });
 
       if (imageUrl && content && newData.title && newData.subtitle) {
@@ -66,9 +67,9 @@ const HeroForm: FC = () => {
           ...user,
           pageContent: {
             ...pageContent,
-            [PageContentVariants.HOME]: {
-              ...pageContent?.[PageContentVariants.HOME],
-              [HomeSections.HERO]: {
+            [PageContentVariants.ABOUT]: {
+              ...pageContent?.[PageContentVariants.ABOUT],
+              [AboutSections.INTRO]: {
                 ...content,
                 ...newData,
                 imageUrl: imageUrl,
@@ -137,4 +138,4 @@ const HeroForm: FC = () => {
   );
 };
 
-export default HeroForm;
+export default IntroForm;

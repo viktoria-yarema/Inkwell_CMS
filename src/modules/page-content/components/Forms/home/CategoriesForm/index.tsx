@@ -3,30 +3,26 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/shared/components/Input";
 import { Label } from "@/shared/components/Label";
-import UploadImage from "@/shared/components/UploadImage";
 import { Button } from "@/shared/components/Button";
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { HomeSections, PageContentVariants } from "@/entities/user/type";
 import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
-import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
-import { getImageUrl } from "@/shared/utils/getImageUrl";
 import { Textarea } from "@/shared/components/Textarea";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   subtitle: z.string().min(1, "Subtitle is required"),
-  imageUrl: z.instanceof(File).optional(),
 });
 
-const HeroForm: FC = () => {
+const CategoriesForm: FC = () => {
   const { data: user } = useUserQuery();
   const pageContent = user?.pageContent;
-  const content = pageContent?.[PageContentVariants.HOME]?.[HomeSections.HERO];
+  const content =
+    pageContent?.[PageContentVariants.HOME]?.[HomeSections.CATEGORIES];
 
   const { mutateAsync: updateUser, isPending: isSubmitting } =
     useUpdateUserMutation();
-  const { handleUploadImage } = useUploadPageImage();
 
   const { control, handleSubmit, setValue, watch } = useForm<
     z.infer<typeof formSchema>
@@ -35,7 +31,6 @@ const HeroForm: FC = () => {
     defaultValues: {
       title: "",
       subtitle: "",
-      imageUrl: undefined,
     },
   });
 
@@ -49,41 +44,27 @@ const HeroForm: FC = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content?.title, content?.subtitle, content?.imageUrl]);
+  }, [content?.title, content?.subtitle]);
 
   const newData = watch();
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    if (data.imageUrl) {
-      const imageUrl = await handleUploadImage({
-        file: data.imageUrl,
-        pageVariant: PageContentVariants.HOME,
-        section: HomeSections.HERO,
-      });
-
-      if (imageUrl && content && newData.title && newData.subtitle) {
-        await updateUser({
-          ...user,
-          pageContent: {
-            ...pageContent,
-            [PageContentVariants.HOME]: {
-              ...pageContent?.[PageContentVariants.HOME],
-              [HomeSections.HERO]: {
-                ...content,
-                ...newData,
-                imageUrl: imageUrl,
-              },
+  const onSubmit = async () => {
+    if (content && newData.title && newData.subtitle) {
+      await updateUser({
+        ...user,
+        pageContent: {
+          ...pageContent,
+          [PageContentVariants.HOME]: {
+            ...pageContent?.[PageContentVariants.HOME],
+            [HomeSections.CATEGORIES]: {
+              ...content,
+              ...newData,
             },
           },
-        });
-      }
+        },
+      });
     }
   };
-
-  const initialPreviewUrl = useMemo(
-    () => getImageUrl(`page-content/${content?.imageUrl || ""}`, user?.id),
-    [user?.id, content?.imageUrl]
-  );
 
   return (
     <form className="flex flex-col gap-4">
@@ -107,22 +88,7 @@ const HeroForm: FC = () => {
         name="subtitle"
         control={control}
       />
-      <Controller
-        render={({ field }) => (
-          <div className="flex flex-col gap-2">
-            <Label htmlFor={field.name}></Label>
-            <UploadImage
-              isSubmitting={isSubmitting}
-              initialPreviewUrl={initialPreviewUrl}
-              onFieldUpdate={(newValue) => {
-                setValue("imageUrl", newValue);
-              }}
-            />
-          </div>
-        )}
-        name="imageUrl"
-        control={control}
-      />
+
       <Button
         type="submit"
         className="w-fit self-end"
@@ -137,4 +103,4 @@ const HeroForm: FC = () => {
   );
 };
 
-export default HeroForm;
+export default CategoriesForm;

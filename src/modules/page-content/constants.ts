@@ -1,7 +1,17 @@
-import { HomeSections, PageContentVariants } from "@/entities/user/type";
+import {
+  AboutSections,
+  HomeSections,
+  PageContentVariants,
+} from "@/entities/user/type";
 import HeaderForm from "./components/Forms/home/HeaderForm";
 import HeroForm from "./components/Forms/home/HeroForm";
 import { FC } from "react";
+import LatestArticlesForm from "./components/Forms/home/LastArticlesForm";
+import CategoriesForm from "./components/Forms/home/CategoriesForm";
+import FooterForm from "./components/Forms/home/FooterForm";
+import PhilosophyForm from "./components/Forms/about/PhilosophyForm";
+import IntroForm from "./components/Forms/about/IntroForm";
+import ProfessionalForm from "./components/Forms/about/ProfessionalForm";
 
 export const pageTabs: {
   value: PageContentVariants;
@@ -47,23 +57,45 @@ export const homeTabs: {
   {
     value: HomeSections.LATEST_ARTICLES,
     label: "Latest Articles",
-    Component: HeroForm,
+    Component: LatestArticlesForm,
   },
   {
     value: HomeSections.CATEGORIES,
     label: "Categories",
-    Component: HeroForm,
+    Component: CategoriesForm,
   },
 
   {
     value: HomeSections.FOOTER,
     label: "Footer",
-    Component: HeroForm,
+    Component: FooterForm,
+  },
+];
+
+export const aboutTabs: {
+  value: AboutSections;
+  label: string;
+  Component: FC;
+}[] = [
+  {
+    value: AboutSections.INTRO,
+    label: "Introduction",
+    Component: IntroForm,
+  },
+  {
+    value: AboutSections.PHILOSOPHY,
+    label: "Philosophy",
+    Component: PhilosophyForm,
+  },
+  {
+    value: AboutSections.PROFESSIONAL_EXPERIENCE,
+    label: "Professional Experience",
+    Component: ProfessionalForm,
   },
 ];
 
 export const contentMap = {
   [PageContentVariants.HOME]: homeTabs,
   [PageContentVariants.ARTICLES]: [],
-  [PageContentVariants.ABOUT]: [],
+  [PageContentVariants.ABOUT]: aboutTabs,
 };

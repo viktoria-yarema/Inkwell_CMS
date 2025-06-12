@@ -43,9 +43,9 @@ export const ContentTabs: React.FC<ContentTabsProps> = ({ pageType }) => {
           </TabsTrigger>
         ))}
       </TabsList>
-      {tabs.map((tab) => (
-        <TabsContent key={tab.value} value={tab.value}>
-          <tab.Component />
+      {tabs.map(({ value, Component }) => (
+        <TabsContent key={value} value={value}>
+          <Component />
         </TabsContent>
       ))}
     </Tabs>

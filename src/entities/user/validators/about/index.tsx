@@ -6,15 +6,18 @@ export const introSchema = z.object({
   imageUrl: z.string().url("Must be a valid URL").or(z.literal("")),
 });
 
-export const professionalExperienceSchema = z.array(
-  z.object({
-    jobTitle: z.string().min(1, "Job title is required"),
-    companyName: z.string().min(1, "Company name is required"),
-    startDate: z.date().optional(),
-    endDate: z.date().optional(),
-    description: z.string().min(1, "Description is required"),
-  })
-);
+export const professionalExperienceItemSchema = z.object({
+  jobTitle: z.string().min(1, "Job title is required"),
+  companyName: z.string().min(1, "Company name is required"),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  description: z.string().min(1, "Description is required"),
+});
+
+export const professionalExperienceSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  professionalExperience: z.array(professionalExperienceItemSchema),
+});
 
 export const philosophySchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -34,4 +37,3 @@ export const educationSchema = z.array(
     location: z.string().min(1, "Location is required"),
   })
 );
-
