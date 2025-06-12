@@ -104,7 +104,7 @@ const HeroForm: FC = () => {
             <Textarea {...field} className="min-h-[80px]" />
           </div>
         )}
-        name="title"
+        name="subtitle"
         control={control}
       />
       <Controller
