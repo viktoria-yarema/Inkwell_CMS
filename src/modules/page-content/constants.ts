@@ -12,6 +12,8 @@ import FooterForm from "./components/Forms/home/FooterForm";
 import PhilosophyForm from "./components/Forms/about/PhilosophyForm";
 import IntroForm from "./components/Forms/about/IntroForm";
 import ProfessionalForm from "./components/Forms/about/ProfessionalForm";
+import SkillsForm from "./components/Forms/about/SkillsForm";
+import EducationForm from "./components/Forms/about/EducationForm";
 
 export const pageTabs: {
   value: PageContentVariants;
@@ -91,6 +93,16 @@ export const aboutTabs: {
     value: AboutSections.PROFESSIONAL_EXPERIENCE,
     label: "Professional Experience",
     Component: ProfessionalForm,
+  },
+  {
+    value: AboutSections.SKILLS,
+    label: "Skills",
+    Component: SkillsForm,
+  },
+  {
+    value: AboutSections.EDUCATION,
+    label: "Education",
+    Component: EducationForm,
   },
 ];
 

@@ -1,33 +1,31 @@
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/shared/components/Input";
-import { Label } from "@/shared/components/Label";
-import UploadImage from "@/shared/components/UploadImage";
-import { Button } from "@/shared/components/Button";
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
-import { AboutSections, PageContentVariants } from "@/entities/user/type";
+import {
+  AboutSections,
+  PageContent,
+  PageContentVariants,
+} from "@/entities/user/type";
 import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
-import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
-import { getImageUrl } from "@/shared/utils/getImageUrl";
+import { Input } from "@/shared/components/Input";
 import { Textarea } from "@/shared/components/Textarea";
+import { Label } from "@/shared/components/Label";
+import { Button } from "@/shared/components/Button";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   subtitle: z.string().min(1, "Subtitle is required"),
-  imageUrl: z.instanceof(File).optional(),
 });
 
 const IntroForm: FC = () => {
   const { data: user } = useUserQuery();
-  const pageContent = user?.pageContent;
-  const content =
-    pageContent?.[PageContentVariants.ABOUT]?.[AboutSections.INTRO];
+  const pageContent = user?.pageContent as PageContent;
+  const content = pageContent?.[PageContentVariants.ABOUT].intro;
 
   const { mutateAsync: updateUser, isPending: isSubmitting } =
     useUpdateUserMutation();
-  const { handleUploadImage } = useUploadPageImage();
 
   const { control, handleSubmit, setValue, watch } = useForm<
     z.infer<typeof formSchema>
@@ -36,7 +34,6 @@ const IntroForm: FC = () => {
     defaultValues: {
       title: "",
       subtitle: "",
-      imageUrl: undefined,
     },
   });
 
@@ -54,37 +51,23 @@ const IntroForm: FC = () => {
 
   const newData = watch();
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    if (data.imageUrl) {
-      const imageUrl = await handleUploadImage({
-        file: data.imageUrl,
-        pageVariant: PageContentVariants.ABOUT,
-        section: AboutSections.INTRO,
-      });
-
-      if (imageUrl && content && newData.title && newData.subtitle) {
-        await updateUser({
-          ...user,
-          pageContent: {
-            ...pageContent,
-            [PageContentVariants.ABOUT]: {
-              ...pageContent?.[PageContentVariants.ABOUT],
-              [AboutSections.INTRO]: {
-                ...content,
-                ...newData,
-                imageUrl: imageUrl,
-              },
+  const onSubmit = async () => {
+    if (content && newData.title && newData.subtitle) {
+      await updateUser({
+        ...user,
+        pageContent: {
+          ...pageContent,
+          [PageContentVariants.ABOUT]: {
+            ...pageContent?.[PageContentVariants.ABOUT],
+            [AboutSections.INTRO]: {
+              ...content,
+              ...newData,
             },
           },
-        });
-      }
+        },
+      });
     }
   };
-
-  const initialPreviewUrl = useMemo(
-    () => getImageUrl(`page-content/${content?.imageUrl || ""}`, user?.id),
-    [user?.id, content?.imageUrl]
-  );
 
   return (
     <form className="flex flex-col gap-4">
@@ -106,22 +89,6 @@ const IntroForm: FC = () => {
           </div>
         )}
         name="subtitle"
-        control={control}
-      />
-      <Controller
-        render={({ field }) => (
-          <div className="flex flex-col gap-2">
-            <Label htmlFor={field.name}></Label>
-            <UploadImage
-              isSubmitting={isSubmitting}
-              initialPreviewUrl={initialPreviewUrl}
-              onFieldUpdate={(newValue) => {
-                setValue("imageUrl", newValue);
-              }}
-            />
-          </div>
-        )}
-        name="imageUrl"
         control={control}
       />
       <Button

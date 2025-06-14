@@ -14,19 +14,16 @@ export const professionalExperienceItemSchema = z.object({
   description: z.string().min(1, "Description is required"),
 });
 
-export const professionalExperienceSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  professionalExperience: z.array(professionalExperienceItemSchema),
-});
+export const professionalExperienceSchema = z.array(
+  professionalExperienceItemSchema
+);
 
 export const philosophySchema = z.object({
   title: z.string().min(1, "Title is required"),
   content: z.string().min(1, "Content is required"),
 });
 
-export const skillsSchema = z.object({
-  skills: z.array(z.string()).min(1, "Skills are required"),
-});
+export const skillsSchema = z.array(z.string()).min(1, "Skills are required");
 
 export const educationSchema = z.array(
   z.object({

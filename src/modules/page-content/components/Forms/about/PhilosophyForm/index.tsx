@@ -82,7 +82,7 @@ const PhilosophyForm: FC = () => {
         render={({ field }) => (
           <div className="flex flex-col gap-2">
             <Label htmlFor={field.name}>Content</Label>
-            <Textarea {...field} className="min-h-[80px]" />
+            <Textarea {...field} className="min-h-[150px]" />
           </div>
         )}
         name="content"

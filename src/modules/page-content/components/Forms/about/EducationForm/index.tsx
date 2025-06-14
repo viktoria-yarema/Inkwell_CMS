@@ -5,12 +5,11 @@ import {
   AboutSections,
   PageContentVariants,
 } from "@/entities/user/type";
-import { professionalExperienceSchema } from "@/entities/user/validators/about";
+import { educationSchema } from "@/entities/user/validators/about";
 import { Button } from "@/shared/components/Button";
 import { Card } from "@/shared/components/Card";
 import DatePicker from "@/shared/components/DatePicker";
 import { Input } from "@/shared/components/Input";
-import { Textarea } from "@/shared/components/Textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { PlusIcon, TrashIcon } from "lucide-react";
@@ -19,10 +18,10 @@ import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  professionalExperience: professionalExperienceSchema,
+  education: educationSchema,
 });
 
-const ProfessionalForm: FC = () => {
+const EducationForm: FC = () => {
   const { data: user } = useUserQuery();
   const pageContent = user?.pageContent;
   const content = pageContent?.[PageContentVariants.ABOUT] as AboutPageContent;
@@ -38,11 +37,11 @@ const ProfessionalForm: FC = () => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      professionalExperience: [
+      education: [
         {
-          jobTitle: "",
-          companyName: "",
-          description: "",
+          title: "",
+          schoolName: "",
+          location: "",
           startDate: undefined,
           endDate: undefined,
         },
@@ -52,12 +51,12 @@ const ProfessionalForm: FC = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "professionalExperience",
+    name: "education",
   });
 
   useEffect(() => {
-    if (content.professionalExperience) {
-      setValue("professionalExperience", content.professionalExperience || []);
+    if (content.education) {
+      setValue("education", content.education || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content, setValue]);
@@ -70,19 +69,18 @@ const ProfessionalForm: FC = () => {
           ...pageContent,
           [PageContentVariants.ABOUT]: {
             ...pageContent[PageContentVariants.ABOUT],
-            [AboutSections.PROFESSIONAL_EXPERIENCE]:
-              data.professionalExperience,
+            [AboutSections.EDUCATION]: data.education,
           },
         },
       });
     }
   };
 
-  const addNewExperience = () => {
+  const addNewEducation = () => {
     append({
-      jobTitle: "",
-      companyName: "",
-      description: "",
+      title: "",
+      schoolName: "",
+      location: "",
       startDate: undefined,
       endDate: undefined,
     });
@@ -95,7 +93,7 @@ const ProfessionalForm: FC = () => {
           <Card className="bg-muted/15 py-6 px-4 max-w-4xl gap-4 flex flex-col flex-1">
             <div className="flex justify-between items-center">
               <p className="font-medium text-lg text-center">
-                Professional Experience {index + 1}
+                Education {index + 1}
               </p>
               {fields.length > 1 && (
                 <Button
@@ -118,7 +116,7 @@ const ProfessionalForm: FC = () => {
                       <Input {...field} />
                     </div>
                   )}
-                  name={`professionalExperience.${index}.jobTitle`}
+                  name={`education.${index}.title`}
                   control={control}
                 />
                 <Controller
@@ -128,17 +126,17 @@ const ProfessionalForm: FC = () => {
                       <Input {...field} />
                     </div>
                   )}
-                  name={`professionalExperience.${index}.companyName`}
+                  name={`education.${index}.schoolName`}
                   control={control}
                 />
                 <Controller
                   render={({ field }) => (
                     <div className="flex flex-col gap-2">
-                      <Label className="text-sm">Description</Label>
-                      <Textarea {...field} className="min-h-[80px]" />
+                      <Label className="text-sm">Location</Label>
+                      <Input {...field} />
                     </div>
                   )}
-                  name={`professionalExperience.${index}.description`}
+                  name={`education.${index}.location`}
                   control={control}
                 />
               </div>
@@ -153,7 +151,7 @@ const ProfessionalForm: FC = () => {
                       />
                     </div>
                   )}
-                  name={`professionalExperience.${index}.startDate`}
+                  name={`education.${index}.startDate`}
                   control={control}
                 />
                 <Controller
@@ -166,7 +164,7 @@ const ProfessionalForm: FC = () => {
                       />
                     </div>
                   )}
-                  name={`professionalExperience.${index}.endDate`}
+                  name={`education.${index}.endDate`}
                   control={control}
                 />
               </div>
@@ -179,10 +177,10 @@ const ProfessionalForm: FC = () => {
         type="button"
         className="rounded-lg border text-blue-500 bg-transparent hover:bg-transparent hover:text-blue-700 border-blue-600 max-w-fit self-center px-4 py-2 shadow-sm  flex items-center gap-2"
         size="lg"
-        onClick={addNewExperience}
+        onClick={addNewEducation}
       >
         <PlusIcon className="h-4 w-4" />
-        Add Professional Experience
+        Add Education
       </Button>
 
       <Button
@@ -199,4 +197,4 @@ const ProfessionalForm: FC = () => {
   );
 };
 
-export default ProfessionalForm;
+export default EducationForm;
