@@ -100,7 +100,7 @@ export const aboutTabs: {
     Component: SkillsForm,
   },
   {
-    value: AboutSections.EDUCATION,
+    value: AboutSections.EDUCATIONS,
     label: "Education",
     Component: EducationForm,
   },

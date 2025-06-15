@@ -33,7 +33,7 @@ export enum AboutSections {
   PROFESSIONAL_EXPERIENCE = "professionalExperience",
   PHILOSOPHY = "philosophy",
   SKILLS = "skills",
-  EDUCATION = "education",
+  EDUCATIONS = "educations",
 }
 
 export type HomePageContent = {
@@ -67,7 +67,7 @@ export type AboutPageContent = {
   >;
   [AboutSections.PHILOSOPHY]: z.infer<typeof philosophySchema>;
   [AboutSections.SKILLS]: z.infer<typeof skillsSchema>;
-  [AboutSections.EDUCATION]: z.infer<typeof educationSchema>;
+  [AboutSections.EDUCATIONS]: z.infer<typeof educationSchema>;
 };
 
 export type ArticlesPageContent = z.infer<typeof articlesSchema>;

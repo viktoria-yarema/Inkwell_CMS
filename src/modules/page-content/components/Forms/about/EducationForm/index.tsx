@@ -55,8 +55,8 @@ const EducationForm: FC = () => {
   });
 
   useEffect(() => {
-    if (content.education) {
-      setValue("education", content.education || []);
+    if (content?.educations) {
+      setValue("education", content?.educations || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content, setValue]);
@@ -69,7 +69,7 @@ const EducationForm: FC = () => {
           ...pageContent,
           [PageContentVariants.ABOUT]: {
             ...pageContent[PageContentVariants.ABOUT],
-            [AboutSections.EDUCATION]: data.education,
+            [AboutSections.EDUCATIONS]: data.education,
           },
         },
       });
