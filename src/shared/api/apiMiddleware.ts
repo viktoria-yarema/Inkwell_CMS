@@ -29,10 +29,10 @@ api.interceptors.response.use(
         try {
           const { data } = await api.post(`/refresh-token`);
 
-          useAuthStore.getState().setAccessToken(data.accessToken);
+          useAuthStore.getState().setAccessToken(data.token);
 
-          api.defaults.headers.Authorization = `Bearer ${data.accessToken}`;
-          originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+          api.defaults.headers.Authorization = `Bearer ${data.token}`;
+          originalRequest.headers.Authorization = `Bearer ${data.token}`;
           return api(originalRequest);
         } catch (refreshError) {
           console.error("Token refresh failed:", refreshError);
