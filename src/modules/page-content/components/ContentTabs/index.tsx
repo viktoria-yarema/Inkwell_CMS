@@ -17,15 +17,13 @@ export const ContentTabs: React.FC<ContentTabsProps> = ({ pageType }) => {
   const [currentTab, setCurrentTab] = useState<string>(
     contentMap[pageType][0]?.value || ""
   );
+
   const tabs = contentMap[pageType];
 
-  if (!tabs) {
+  if (!tabs.length) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-center py-8 text-muted-foreground min-h-[500px] flex-center">
         <p>No content sections available for this page.</p>
-        <p className="text-sm mt-2">
-          Content sections will be added here in the future.
-        </p>
       </div>
     );
   }

@@ -169,6 +169,7 @@ export default function QuillEditor({
         if (!quill) return;
 
         const range = quill.getSelection(true);
+
         if (range) {
           quill.insertEmbed(range.index, "image", reader.result, "user");
         }

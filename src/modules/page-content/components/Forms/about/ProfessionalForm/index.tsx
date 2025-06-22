@@ -56,8 +56,8 @@ const ProfessionalForm: FC = () => {
   });
 
   useEffect(() => {
-    if (content.professionalExperience) {
-      setValue("professionalExperience", content.professionalExperience || []);
+    if (content?.professionalExperience) {
+      setValue("professionalExperience", content?.professionalExperience || []);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content, setValue]);

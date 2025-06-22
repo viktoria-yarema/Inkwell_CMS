@@ -60,12 +60,12 @@ const EditArticlePage = () => {
         })
       );
 
-      const processedContent = processEditorContent(
-        article?.content ?? "",
-        user?.id ?? ""
-      );
+      // const processedContent = processEditorContent(
+      //   article?.content ?? "",
+      //   user?.id ?? ""
+      // );
 
-      setContent(processedContent);
+      setContent(article?.content ?? "");
     }
   }, [article, tags, user?.id, isSuccessTags, isSuccessUser]);
 

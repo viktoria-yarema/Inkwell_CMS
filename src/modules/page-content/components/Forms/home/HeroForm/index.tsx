@@ -81,7 +81,10 @@ const HeroForm: FC = () => {
   };
 
   const initialPreviewUrl = useMemo(
-    () => getImageUrl(`page-content/${content?.imageUrl || ""}`, user?.id),
+    () =>
+      content?.imageUrl
+        ? getImageUrl(`page-content/${content?.imageUrl || ""}`, user?.id)
+        : undefined,
     [user?.id, content?.imageUrl]
   );
 

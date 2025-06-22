@@ -18,7 +18,9 @@ const UploadImage: FC<UploadImageProps> = ({
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    setPreviewUrl(initialPreviewUrl);
+    if (initialPreviewUrl) {
+      setPreviewUrl(initialPreviewUrl);
+    }
   }, [initialPreviewUrl]);
 
   const handleFileSelect = (file: File) => {
@@ -27,7 +29,7 @@ const UploadImage: FC<UploadImageProps> = ({
 
     onFieldUpdate(file);
   };
-
+  console.log(previewUrl, "!previewUrl!previewUrl");
   const handleImageDelete = () => {
     setPreviewUrl(undefined);
     onFieldUpdate(undefined);
@@ -36,7 +38,7 @@ const UploadImage: FC<UploadImageProps> = ({
     <div className="space-y-2">
       <Label htmlFor="upload-image">Upload Image</Label>
       <div className="space-y-2">
-        {!previewUrl ? (
+        {!previewUrl && (
           <Input
             id="upload-image"
             type="file"
@@ -50,7 +52,8 @@ const UploadImage: FC<UploadImageProps> = ({
             disabled={isSubmitting}
             className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/80 w-fit"
           />
-        ) : (
+        )}
+        {previewUrl && (
           <div className="space-y-2">
             <div className="relative inline-block">
               <img

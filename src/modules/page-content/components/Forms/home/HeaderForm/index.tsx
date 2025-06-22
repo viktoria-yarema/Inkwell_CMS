@@ -75,7 +75,10 @@ const HeaderForm: FC = () => {
   };
 
   const initialPreviewUrl = useMemo(
-    () => getImageUrl(`page-content/${content?.logoUrl || ""}`, user?.id),
+    () =>
+      content?.logoUrl
+        ? getImageUrl(`page-content/${content?.logoUrl || ""}`, user?.id)
+        : undefined,
     [user?.id, content?.logoUrl]
   );
 

@@ -56,15 +56,12 @@ const CreateArticlePage = () => {
     try {
       setIsProcessingImages(true);
 
-      const [updatedContent, coverImageName] = await Promise.all([
-        processEditorImages(content),
-        handleCoverImage(),
-      ]);
+      const coverImageName = await handleCoverImage();
 
       createArticle(
         {
           title,
-          content: updatedContent.updatedContent,
+          content,
           status: selectedStatus.value as ArticleStatus,
           authorId: user.id,
           tags: selectedTags.map((tag) => tag.value),
