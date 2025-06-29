@@ -8,9 +8,9 @@ import { Button } from "@/shared/components/Button";
 import { FC, useEffect, useMemo } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { HomeSections, PageContentVariants } from "@/entities/user/type";
-import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
 import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
+import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 
 const formSchema = z.object({
   brandName: z.string().min(1, "Brand name is required"),
@@ -23,8 +23,8 @@ const HeaderForm: FC = () => {
   const content =
     pageContent?.[PageContentVariants.HOME]?.[HomeSections.HEADER];
 
-  const { mutateAsync: updateUser, isPending: isSubmitting } =
-    useUpdateUserMutation();
+  const { mutateAsync: updatePageContent, isPending: isSubmitting } =
+    useUpdatePageContentMutation();
   const { handleUploadImage } = useUploadPageImage();
 
   const { control, handleSubmit, setValue, watch } = useForm<
@@ -55,21 +55,17 @@ const HeaderForm: FC = () => {
         section: HomeSections.HEADER,
       });
 
-      if (imageUrl && content && newData.brandName && newData.logoUrl) {
-        await updateUser({
-          ...user,
-          pageContent: {
-            ...pageContent,
-            [PageContentVariants.HOME]: {
-              ...pageContent?.[PageContentVariants.HOME],
-              [HomeSections.HEADER]: {
-                ...content,
-                ...newData,
-                logoUrl: imageUrl,
-              },
-            },
+      if (imageUrl && newData.brandName && newData.logoUrl) {
+        await updatePageContent({
+          pageVariant: PageContentVariants.HOME,
+          section: HomeSections.HEADER,
+          content: {
+            logoUrl: imageUrl || content?.logoUrl || "",
+            brandName: newData.brandName || content?.brandName || "",
           },
         });
+      } else {
+        console.log("error not updated");
       }
     }
   };

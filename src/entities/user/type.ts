@@ -91,11 +91,17 @@ export type User = {
 };
 
 export type UpdateUser = Partial<
-  Pick<User, "firstName" | "lastName" | "phoneNumber" | "email" | "pageContent">
+  Pick<User, "firstName" | "lastName" | "phoneNumber" | "email">
 >;
 
 export type UploadPageContentImageRequest = {
   file: File;
   pageVariant: PageContentVariants;
   section: string;
+};
+
+export type UpdatePageContentRequest = {
+  pageVariant: PageContentVariants;
+  section: string;
+  content: unknown;
 };

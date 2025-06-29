@@ -29,7 +29,7 @@ const UploadImage: FC<UploadImageProps> = ({
 
     onFieldUpdate(file);
   };
-  console.log(previewUrl, "!previewUrl!previewUrl");
+ 
   const handleImageDelete = () => {
     setPreviewUrl(undefined);
     onFieldUpdate(undefined);

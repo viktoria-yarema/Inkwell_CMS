@@ -8,10 +8,10 @@ import { Button } from "@/shared/components/Button";
 import { FC, useEffect, useMemo } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { HomeSections, PageContentVariants } from "@/entities/user/type";
-import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
 import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
 import { Textarea } from "@/shared/components/Textarea";
+import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -24,8 +24,8 @@ const HeroForm: FC = () => {
   const pageContent = user?.pageContent;
   const content = pageContent?.[PageContentVariants.HOME]?.[HomeSections.HERO];
 
-  const { mutateAsync: updateUser, isPending: isSubmitting } =
-    useUpdateUserMutation();
+  const { mutateAsync: updatePageContent, isPending: isSubmitting } =
+    useUpdatePageContentMutation();
   const { handleUploadImage } = useUploadPageImage();
 
   const { control, handleSubmit, setValue, watch } = useForm<
@@ -62,18 +62,13 @@ const HeroForm: FC = () => {
       });
 
       if (imageUrl && content && newData.title && newData.subtitle) {
-        await updateUser({
-          ...user,
-          pageContent: {
-            ...pageContent,
-            [PageContentVariants.HOME]: {
-              ...pageContent?.[PageContentVariants.HOME],
-              [HomeSections.HERO]: {
-                ...content,
-                ...newData,
-                imageUrl: imageUrl,
-              },
-            },
+        await updatePageContent({
+          pageVariant: PageContentVariants.HOME,
+          section: HomeSections.HERO,
+          content: {
+            ...content,
+            ...newData,
+            imageUrl: imageUrl,
           },
         });
       }

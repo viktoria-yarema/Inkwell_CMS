@@ -1,4 +1,4 @@
-import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
+import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { AboutSections, PageContentVariants } from "@/entities/user/type";
 import { skillsSchema } from "@/entities/user/validators/about";
@@ -16,8 +16,8 @@ const formSchema = z.object({
 
 const SkillsForm: FC = () => {
   const { data: user } = useUserQuery();
-  const { mutateAsync: updateUser, isPending: isSubmitting } =
-    useUpdateUserMutation();
+  const { mutateAsync: updatePageContent, isPending: isSubmitting } =
+    useUpdatePageContentMutation();
 
   const {
     control,
@@ -50,15 +50,10 @@ const SkillsForm: FC = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     if (user && pageContent) {
-      await updateUser({
-        ...user,
-        pageContent: {
-          ...pageContent,
-          [PageContentVariants.ABOUT]: {
-            ...pageContent[PageContentVariants.ABOUT],
-            [AboutSections.SKILLS]: data.skills,
-          },
-        },
+      await updatePageContent({
+        pageVariant: PageContentVariants.ABOUT,
+        section: AboutSections.SKILLS,
+        content: data.skills,
       });
     }
   };

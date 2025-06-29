@@ -7,7 +7,7 @@ import { Button } from "@/shared/components/Button";
 import { FC, useEffect } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { AboutSections, PageContentVariants } from "@/entities/user/type";
-import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
+import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 import { Textarea } from "@/shared/components/Textarea";
 
 const formSchema = z.object({
@@ -21,8 +21,8 @@ const PhilosophyForm: FC = () => {
   const content =
     pageContent?.[PageContentVariants.ABOUT]?.[AboutSections.PHILOSOPHY];
 
-  const { mutateAsync: updateUser, isPending: isSubmitting } =
-    useUpdateUserMutation();
+  const { mutateAsync: updatePageContent, isPending: isSubmitting } =
+    useUpdatePageContentMutation();
 
   const { control, handleSubmit, setValue, watch } = useForm<
     z.infer<typeof formSchema>
@@ -50,17 +50,12 @@ const PhilosophyForm: FC = () => {
 
   const onSubmit = async () => {
     if (content && newData.title && newData.content) {
-      await updateUser({
-        ...user,
-        pageContent: {
-          ...pageContent,
-          [PageContentVariants.ABOUT]: {
-            ...pageContent?.[PageContentVariants.ABOUT],
-            [AboutSections.PHILOSOPHY]: {
-              ...content,
-              ...newData,
-            },
-          },
+      await updatePageContent({
+        pageVariant: PageContentVariants.ABOUT,
+        section: AboutSections.PHILOSOPHY,
+        content: {
+          ...content,
+          ...newData,
         },
       });
     }

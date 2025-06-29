@@ -8,11 +8,11 @@ import {
   PageContent,
   PageContentVariants,
 } from "@/entities/user/type";
-import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
 import { Input } from "@/shared/components/Input";
 import { Textarea } from "@/shared/components/Textarea";
 import { Label } from "@/shared/components/Label";
 import { Button } from "@/shared/components/Button";
+import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -24,8 +24,8 @@ const IntroForm: FC = () => {
   const pageContent = user?.pageContent as PageContent;
   const content = pageContent?.[PageContentVariants.ABOUT].intro;
 
-  const { mutateAsync: updateUser, isPending: isSubmitting } =
-    useUpdateUserMutation();
+  const { mutateAsync: updatePageContent, isPending: isSubmitting } =
+    useUpdatePageContentMutation();
 
   const { control, handleSubmit, setValue, watch } = useForm<
     z.infer<typeof formSchema>
@@ -53,17 +53,12 @@ const IntroForm: FC = () => {
 
   const onSubmit = async () => {
     if (content && newData.title && newData.subtitle) {
-      await updateUser({
-        ...user,
-        pageContent: {
-          ...pageContent,
-          [PageContentVariants.ABOUT]: {
-            ...pageContent?.[PageContentVariants.ABOUT],
-            [AboutSections.INTRO]: {
-              ...content,
-              ...newData,
-            },
-          },
+      await updatePageContent({
+        pageVariant: PageContentVariants.ABOUT,
+        section: AboutSections.INTRO,
+        content: {
+          ...content,
+          ...newData,
         },
       });
     }
