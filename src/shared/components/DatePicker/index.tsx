@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Button } from "@/shared/components/Button";
-import { Calendar } from "@/shared/components/calendar";
+import { Calendar } from "@/shared/components/Calendar";
 import {
   Popover,
   PopoverContent,

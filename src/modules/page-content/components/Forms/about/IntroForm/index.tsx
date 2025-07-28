@@ -16,7 +16,7 @@ import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdat
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  subtitle: z.string().min(1, "Subtitle is required"),
+  content: z.string().min(1, "Content is required"),
 });
 
 const IntroForm: FC = () => {
@@ -24,16 +24,23 @@ const IntroForm: FC = () => {
   const pageContent = user?.pageContent as PageContent;
   const content = pageContent?.[PageContentVariants.ABOUT].intro;
 
+  console.log(content, "content");
+
   const { mutateAsync: updatePageContent, isPending: isSubmitting } =
     useUpdatePageContentMutation();
 
-  const { control, handleSubmit, setValue, watch } = useForm<
-    z.infer<typeof formSchema>
-  >({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    setError,
+    formState: { errors },
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      subtitle: "",
+      content: "",
     },
   });
 
@@ -42,17 +49,20 @@ const IntroForm: FC = () => {
       setValue("title", content.title);
     }
 
-    if (content?.subtitle) {
-      setValue("subtitle", content.subtitle);
+    if (content?.content) {
+      setValue("content", content.content);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content?.title, content?.subtitle, content?.imageUrl]);
+  }, [content?.title, content?.content]);
 
   const newData = watch();
 
   const onSubmit = async () => {
-    if (content && newData.title && newData.subtitle) {
+    console.log(content, "outside");
+    if (content && newData.title && newData.content) {
+      console.log(newData, "newData");
+
       await updatePageContent({
         pageVariant: PageContentVariants.ABOUT,
         section: AboutSections.INTRO,
@@ -61,6 +71,9 @@ const IntroForm: FC = () => {
           ...newData,
         },
       });
+    } else {
+      setError("title", { message: "Title is required" });
+      setError("content", { message: "Content is required" });
     }
   };
 
@@ -70,7 +83,7 @@ const IntroForm: FC = () => {
         render={({ field }) => (
           <div className="flex flex-col gap-2">
             <Label htmlFor={field.name}>Title</Label>
-            <Input {...field} />
+            <Input {...field} error={errors.title?.message} />
           </div>
         )}
         name="title"
@@ -80,10 +93,14 @@ const IntroForm: FC = () => {
         render={({ field }) => (
           <div className="flex flex-col gap-2">
             <Label htmlFor={field.name}>Subtitle</Label>
-            <Textarea {...field} className="min-h-[80px]" />
+            <Textarea
+              {...field}
+              className="min-h-[80px]"
+              error={errors.content?.message}
+            />
           </div>
         )}
-        name="subtitle"
+        name="content"
         control={control}
       />
       <Button
