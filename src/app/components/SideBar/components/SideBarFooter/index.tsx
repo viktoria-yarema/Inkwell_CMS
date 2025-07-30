@@ -5,6 +5,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
 } from "@/shared/components/DropdownMenu";
+import { queryClient } from "@/shared/providers/ReactQueryProvider";
 import { LOGIN_PATH } from "@/shared/routes/paths";
 import { useNavigate } from "react-router-dom";
 import DrawerTrigger from "./components/DrawerTrigger";
@@ -19,6 +20,7 @@ const SideBarFooter = () => {
   const handleLogout = async () => {
     await logoutMutation(undefined, {
       onSuccess: () => {
+        queryClient.clear();
         logoutStore();
         navigate(LOGIN_PATH);
       },
