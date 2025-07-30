@@ -24,8 +24,6 @@ const IntroForm: FC = () => {
   const pageContent = user?.pageContent as PageContent;
   const content = pageContent?.[PageContentVariants.ABOUT].intro;
 
-  console.log(content, "content");
-
   const { mutateAsync: updatePageContent, isPending: isSubmitting } =
     useUpdatePageContentMutation();
 
@@ -59,10 +57,7 @@ const IntroForm: FC = () => {
   const newData = watch();
 
   const onSubmit = async () => {
-    console.log(content, "outside");
     if (content && newData.title && newData.content) {
-      console.log(newData, "newData");
-
       await updatePageContent({
         pageVariant: PageContentVariants.ABOUT,
         section: AboutSections.INTRO,

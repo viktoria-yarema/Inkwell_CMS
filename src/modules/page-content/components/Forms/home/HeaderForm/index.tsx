@@ -11,6 +11,7 @@ import { HomeSections, PageContentVariants } from "@/entities/user/type";
 import { useUploadPageImage } from "@/entities/user/hooks/useUploadPageImage";
 import { getImageUrl } from "@/shared/utils/getImageUrl";
 import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
+import { toast } from "@/shared/hooks/use-toast";
 
 const formSchema = z.object({
   brandName: z.string().min(1, "Brand name is required"),
@@ -56,16 +57,25 @@ const HeaderForm: FC = () => {
       });
 
       if (imageUrl && newData.brandName && newData.logoUrl) {
-        await updatePageContent({
-          pageVariant: PageContentVariants.HOME,
-          section: HomeSections.HEADER,
-          content: {
-            logoUrl: imageUrl || content?.logoUrl || "",
-            brandName: newData.brandName || content?.brandName || "",
+        await updatePageContent(
+          {
+            pageVariant: PageContentVariants.HOME,
+            section: HomeSections.HEADER,
+            content: {
+              logoUrl: imageUrl || content?.logoUrl || "",
+              brandName: newData.brandName || content?.brandName || "",
+            },
           },
-        });
-      } else {
-        console.log("error not updated");
+          {
+            onError: (error) => {
+              toast({
+                title: "Error",
+                description: error.message || "Failed to update page content",
+                variant: "destructive",
+              });
+            },
+          }
+        );
       }
     }
   };
