@@ -78,6 +78,11 @@ export type PageContent = {
   [PageContentVariants.ABOUT]: AboutPageContent;
 };
 
+export type SocialMediaLink = {
+  id: string;
+  link: string;
+};
+
 export type User = {
   id: string;
   firstName: string;
@@ -88,11 +93,22 @@ export type User = {
   updatedAt: Date;
   avatarUrl?: string;
   pageContent: PageContent;
+  socialMedia: SocialMediaLink[];
 };
 
 export type UpdateUser = Partial<
-  Pick<User, "firstName" | "lastName" | "phoneNumber" | "email">
+  Pick<User, "firstName" | "lastName" | "phoneNumber" | "email" | "socialMedia">
 >;
+
+export type AddSocialMediaRequest = {
+  id: string;
+  link: string;
+};
+
+export type UpdateSocialMediaRequest = {
+  id: string;
+  link: string;
+};
 
 export type UploadPageContentImageRequest = {
   file: File;

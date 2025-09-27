@@ -18,10 +18,23 @@ import { Mail, Phone, User } from "lucide-react";
 import { User as UserType } from "@/entities/user/type";
 import { useEffect } from "react";
 import { useUpdateUserMutation } from "@/entities/user/mutations/useUpdateUserMutation";
+import { useAddSocialMediaMutation } from "@/entities/user/mutations/useAddSocialMediaMutation";
+import { useUpdateSocialMediaMutation } from "@/entities/user/mutations/useUpdateSocialMediaMutation";
+import { useDeleteSocialMediaMutation } from "@/entities/user/mutations/useDeleteSocialMediaMutation";
 import { useToast } from "@/shared/hooks/use-toast";
 import { invalidateUserQuery } from "@/entities/user/queries/useUserQuery";
+import { SocialMediaPicker } from "@/shared/components/SocialMediaPicker";
+import { SocialMediaLink } from "@/entities/user/type";
 
 type ProfileFormData = z.infer<typeof profileSchema>;
+
+type ApiError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
 
 type ProfileDialogProps = {
   user?: UserType;
@@ -48,6 +61,9 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
     resolver: zodResolver(profileSchema),
   });
   const { mutate: updateUser } = useUpdateUserMutation();
+  const { mutate: addSocialMedia } = useAddSocialMediaMutation();
+  const { mutate: updateSocialMedia } = useUpdateSocialMediaMutation();
+  const { mutate: deleteSocialMedia } = useDeleteSocialMediaMutation();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -75,6 +91,75 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
         console.error(error);
         setError("root", {
           message: "Something went wrong",
+        });
+      },
+    });
+  };
+
+  const handleAddSocialMedia = (social: SocialMediaLink) => {
+    addSocialMedia(social, {
+      onSuccess: () => {
+        toast({
+          title: "Social media added",
+          description: "Social media link has been added successfully",
+        });
+        invalidateUserQuery();
+      },
+      onError: (error: unknown) => {
+        console.error(error);
+        toast({
+          title: "Error",
+          description:
+            (error as ApiError)?.response?.data?.message ||
+            "Failed to add social media link",
+          variant: "destructive",
+        });
+      },
+    });
+  };
+
+  const handleUpdateSocialMedia = (id: string, link: string) => {
+    updateSocialMedia(
+      { id, link },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Social media updated",
+            description: "Social media link has been updated successfully",
+          });
+          invalidateUserQuery();
+        },
+        onError: (error: unknown) => {
+          console.error(error);
+          toast({
+            title: "Error",
+            description:
+              (error as ApiError)?.response?.data?.message ||
+              "Failed to update social media link",
+            variant: "destructive",
+          });
+        },
+      }
+    );
+  };
+
+  const handleRemoveSocialMedia = (id: string) => {
+    deleteSocialMedia(id, {
+      onSuccess: () => {
+        toast({
+          title: "Social media removed",
+          description: "Social media link has been removed successfully",
+        });
+        invalidateUserQuery();
+      },
+      onError: (error: unknown) => {
+        console.error(error);
+        toast({
+          title: "Error",
+          description:
+            (error as ApiError)?.response?.data?.message ||
+            "Failed to remove social media link",
+          variant: "destructive",
         });
       },
     });
@@ -200,6 +285,14 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <SocialMediaPicker
+                socialMedia={user?.socialMedia || []}
+                onAdd={handleAddSocialMedia}
+                onUpdate={handleUpdateSocialMedia}
+                onRemove={handleRemoveSocialMedia}
+              />
             </div>
           </div>
           {errors.root && (
