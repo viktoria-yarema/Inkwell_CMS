@@ -7,7 +7,7 @@ import cn from "@/shared/utils/cn";
 import ToolBar from "./components/ToolBar";
 import { decodeHtmlEntities } from "@/shared/utils/decodeHtmlEntities";
 
-const Embed = Quill.import("blots/block/embed");
+const Embed = Quill.import("blots/block/embed") as any;
 
 class DividerBlot extends Embed {
   static create() {
@@ -17,10 +17,10 @@ class DividerBlot extends Embed {
   }
 }
 
-DividerBlot.blotName = "divider";
-DividerBlot.tagName = "hr";
+(DividerBlot as any).blotName = "divider";
+(DividerBlot as any).tagName = "hr";
 
-Quill.register(DividerBlot);
+Quill.register(DividerBlot as any);
 
 interface QuillEditorProps {
   value: string;
@@ -57,7 +57,7 @@ export default function QuillEditor({
         image: () => {
           fileInputRef.current?.click();
         },
-        divider: function () {
+        divider: function (this: any) {
           const quill = this.quill;
           const range = quill.getSelection(true);
           quill.insertEmbed(range.index, "divider", true, Quill.sources.USER);

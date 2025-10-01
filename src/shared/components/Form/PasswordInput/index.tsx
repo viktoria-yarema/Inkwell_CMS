@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Input, InputProps } from "../../Input";
+import { Input, InputProps } from "../../ui/Input";
 import { ControllerRenderProps } from "react-hook-form";
 
 type PasswordInputProps = InputProps & {

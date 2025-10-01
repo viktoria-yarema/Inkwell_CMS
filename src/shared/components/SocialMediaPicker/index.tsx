@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./ui/Button";
-import { Input } from "./ui/Input";
-import { Label } from "./ui/Label";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Label } from "../ui/Label";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/Dialog";
+} from "../ui/Dialog";
 import { SocialMediaLink } from "@/entities/user/type";
 import { X, Plus, ExternalLink } from "lucide-react";
 
@@ -137,7 +137,9 @@ export const SocialMediaPicker = ({
                     </div>
                     <Input
                       value={editingLink}
-                      onChange={(e) => setEditingLink(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setEditingLink(e.target.value)
+                      }
                       placeholder="Enter link"
                       className="flex-1"
                     />
@@ -232,7 +234,9 @@ export const SocialMediaPicker = ({
                 id="link"
                 type="url"
                 value={link}
-                onChange={(e) => setLink(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setLink(e.target.value)
+                }
                 placeholder="https://..."
               />
             </div>

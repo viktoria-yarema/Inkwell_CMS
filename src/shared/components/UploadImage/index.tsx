@@ -1,8 +1,8 @@
 import { X } from "lucide-react";
-import { Button } from "../Button";
-import { Input } from "../Input";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 import { FC, useEffect, useState } from "react";
-import { Label } from "../Label";
+import { Label } from "../ui/Label";
 
 type UploadImageProps = {
   isSubmitting: boolean;
@@ -29,7 +29,7 @@ const UploadImage: FC<UploadImageProps> = ({
 
     onFieldUpdate(file);
   };
- 
+
   const handleImageDelete = () => {
     setPreviewUrl(undefined);
     onFieldUpdate(undefined);
@@ -43,7 +43,7 @@ const UploadImage: FC<UploadImageProps> = ({
             id="upload-image"
             type="file"
             accept="image/*"
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const file = e.target.files?.[0];
               if (file) {
                 handleFileSelect(file);
@@ -78,7 +78,7 @@ const UploadImage: FC<UploadImageProps> = ({
               <Input
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const file = e.target.files?.[0];
                   if (file) {
                     handleFileSelect(file);

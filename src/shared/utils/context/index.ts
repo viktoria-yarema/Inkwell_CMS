@@ -44,7 +44,9 @@ export function createContext<T>(options: CreateContextOptions<T> = {}) {
         errorMessage ?? getErrorMessage(hookName, providerName),
       );
       error.name = "ContextError";
-      Error.captureStackTrace?.(error, useContext);
+      if ((Error as any).captureStackTrace) {
+        (Error as any).captureStackTrace(error, useContext);
+      }
       throw error;
     }
 
