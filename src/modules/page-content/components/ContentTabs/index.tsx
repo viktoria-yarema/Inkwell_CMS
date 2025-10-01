@@ -5,7 +5,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/shared/components/Tabs";
+} from "@/shared/components/ui/Tabs";
 import { PageContentVariants } from "@/entities/user/type";
 import { contentMap } from "../../constants";
 

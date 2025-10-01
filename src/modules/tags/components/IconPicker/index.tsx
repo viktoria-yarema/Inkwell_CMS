@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { InkwellIcon } from "@/entities/tags/type";
 import cn from "@/shared/utils/cn";
-import { Label } from "@/shared/components/Label";
+import { Label } from "@/shared/components/ui/Label";
 import { iconComponents } from "../../constants";
 
 interface IconPickerProps {

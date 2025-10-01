@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/components/Card";
+} from "@/shared/components/ui/Card";
 import cn from "@/shared/utils/cn";
 import LoginForm from "./components/LoginForm";
 

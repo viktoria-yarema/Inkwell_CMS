@@ -1,6 +1,6 @@
 import { useState, useRef, type ChangeEvent } from "react";
-import { Button } from "@/shared/components/Button";
-import { Card } from "@/shared/components/Card";
+import { Button } from "@/shared/components/ui/Button";
+import { Card } from "@/shared/components/ui/Card";
 import { ImagePlus, Upload, X, Loader2 } from "lucide-react";
 
 interface CoverImageUploadProps {

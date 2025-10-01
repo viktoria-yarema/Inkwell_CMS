@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Article, ArticleStatus } from "@/entities/articles/type";
-import { Badge } from "@/shared/components/Badge";
+import { Badge } from "@/shared/components/ui/Badge";
 import TableDropdownMenu from "@/shared/components/TableDropdownMenu";
-import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
+import { DropdownMenuItem } from "@/shared/components/ui/DropdownMenu";
 import { format } from "date-fns";
 
 type ArticleColumnsProps = {

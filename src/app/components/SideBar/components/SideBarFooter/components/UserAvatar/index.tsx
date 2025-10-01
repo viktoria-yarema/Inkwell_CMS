@@ -3,7 +3,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/shared/components/Avatar";
+} from "@/shared/components/ui/Avatar";
 import { getAvatarInitials } from "@/shared/utils/getAvatarInitials";
 import { CircleUserRound } from "lucide-react";
 

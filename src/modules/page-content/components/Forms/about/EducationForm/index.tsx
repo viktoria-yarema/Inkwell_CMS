@@ -6,10 +6,10 @@ import {
   PageContentVariants,
 } from "@/entities/user/type";
 import { educationSchema } from "@/entities/user/validators/about";
-import { Button } from "@/shared/components/Button";
-import { Card } from "@/shared/components/Card";
+import { Button } from "@/shared/components/ui/Button";
+import { Card } from "@/shared/components/ui/Card";
 import DatePicker from "@/shared/components/DatePicker";
-import { Input } from "@/shared/components/Input";
+import { Input } from "@/shared/components/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { PlusIcon, TrashIcon } from "lucide-react";

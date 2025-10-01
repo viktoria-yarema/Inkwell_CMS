@@ -4,14 +4,14 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/shared/components/Tabs";
+} from "@/shared/components/ui/Tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/components/Card";
+} from "@/shared/components/ui/Card";
 import { ContentTabs } from "./components/ContentTabs";
 import { PageContentVariants } from "@/entities/user/type";
 import { pageTabs } from "./constants";
@@ -52,9 +52,7 @@ const PageContent: FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>{tab.label} Page Content</CardTitle>
-                <CardDescription>
-                  {tab.description}
-                </CardDescription>
+                <CardDescription>{tab.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ContentTabs pageType={tab.value} />

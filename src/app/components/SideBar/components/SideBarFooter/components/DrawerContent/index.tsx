@@ -3,7 +3,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuLabel,
-} from "@/shared/components/DropdownMenu";
+} from "@/shared/components/ui/DropdownMenu";
 import { LogOut, User } from "lucide-react";
 import UserAvatar from "../UserAvatar";
 import { useProfileStore } from "@/entities/user/stores/useProfileModal";

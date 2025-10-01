@@ -1,4 +1,4 @@
-import { DropdownMenuTrigger } from "@/shared/components/DropdownMenu";
+import { DropdownMenuTrigger } from "@/shared/components/ui/DropdownMenu";
 import { ChevronsUpDown } from "lucide-react";
 import { FC } from "react";
 import UserAvatar from "../UserAvatar";

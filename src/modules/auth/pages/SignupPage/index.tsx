@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shared/components/Card";
+} from "@/shared/components/ui/Card";
 import Logo from "@/shared/assets/icons/Logo";
 
 const SignupPage = () => {

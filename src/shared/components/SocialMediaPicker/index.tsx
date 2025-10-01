@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./Button";
-import { Input } from "./Input";
-import { Label } from "./Label";
+import { Button } from "./ui/Button";
+import { Input } from "./ui/Input";
+import { Label } from "./ui/Label";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./Dialog";
+} from "./ui/Dialog";
 import { SocialMediaLink } from "@/entities/user/type";
 import { X, Plus, ExternalLink } from "lucide-react";
 

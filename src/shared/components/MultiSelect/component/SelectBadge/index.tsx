@@ -1,4 +1,4 @@
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { X } from "lucide-react";
 import cn from "@/shared/utils/cn";
 import { FC } from "react";

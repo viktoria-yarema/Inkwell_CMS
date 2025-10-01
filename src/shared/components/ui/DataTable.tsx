@@ -15,8 +15,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shared/components/Table";
-import { Button } from "./Button";
+} from "@/shared/components/ui/Table";
+import { Button } from "@/shared/components/ui/Button";
 import { useState } from "react";
 
 type DataTableProps<TData, TValue> = {

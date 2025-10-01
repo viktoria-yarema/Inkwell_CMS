@@ -1,8 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
 import { Form, useNavigate, Link } from "react-router-dom";
-import { Input } from "@/shared/components/Input";
-import { Label } from "@/shared/components/Label";
-import { Button } from "@/shared/components/Button";
+import { Input } from "@/shared/components/ui/Input";
+import { Label } from "@/shared/components/ui/Label";
+import { Button } from "@/shared/components/ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchemaType } from "@/entities/auth/type";
 import { loginSchema } from "@/entities/auth/validations";

@@ -1,5 +1,5 @@
-import { Button } from "@/shared/components/Button";
-import DataTable from "@/shared/components/DataTable";
+import { Button } from "@/shared/components/ui/Button";
+import DataTable from "@/shared/components/ui/DataTable";
 import { Plus } from "lucide-react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { ARTICLE_PATH } from "@/shared/routes/paths";

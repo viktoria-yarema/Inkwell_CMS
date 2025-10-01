@@ -8,10 +8,10 @@ import {
   PageContent,
   PageContentVariants,
 } from "@/entities/user/type";
-import { Input } from "@/shared/components/Input";
-import { Textarea } from "@/shared/components/Textarea";
-import { Label } from "@/shared/components/Label";
-import { Button } from "@/shared/components/Button";
+import { Input } from "@/shared/components/ui/Input";
+import { Textarea } from "@/shared/components/ui/Textarea";
+import { Label } from "@/shared/components/ui/Label";
+import { Button } from "@/shared/components/ui/Button";
 import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdatePageContentMutation";
 
 const formSchema = z.object({

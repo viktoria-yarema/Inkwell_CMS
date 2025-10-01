@@ -2,7 +2,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/shared/components/DropdownMenu";
+} from "@/shared/components/ui/DropdownMenu";
 import { EllipsisVertical } from "lucide-react";
 import { FC } from "react";
 

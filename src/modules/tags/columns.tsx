@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DropdownMenuItem } from "@/shared/components/DropdownMenu";
+import { DropdownMenuItem } from "@/shared/components/ui/DropdownMenu";
 import { InkwellIcon, Tag } from "@/entities/tags/type";
 import TableDropdownMenu from "@/shared/components/TableDropdownMenu";
 import { iconComponents } from "./constants";

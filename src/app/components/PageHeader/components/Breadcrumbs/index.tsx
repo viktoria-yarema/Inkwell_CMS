@@ -6,7 +6,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/shared/components/Breadcrumb";
+} from "@/shared/components/ui/Breadcrumb";
 import { useLocation, useParams } from "react-router-dom";
 import { routes } from "@/shared/routes/routing";
 import { findNestedRoute } from "@/shared/routes/helpers";

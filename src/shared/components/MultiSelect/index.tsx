@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Check, Plus } from "lucide-react";
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import {
   Command,
   CommandEmpty,
@@ -10,12 +10,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/shared/components/Command";
+} from "@/shared/components/ui/Command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/shared/components/Popover";
+} from "@/shared/components/ui/Popover";
 import cn from "@/shared/utils/cn";
 import SelectBadge from "./component/SelectBadge";
 

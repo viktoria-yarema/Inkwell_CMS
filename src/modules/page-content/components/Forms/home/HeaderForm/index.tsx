@@ -1,10 +1,10 @@
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/shared/components/Input";
-import { Label } from "@/shared/components/Label";
+import { Input } from "@/shared/components/ui/Input";
+import { Label } from "@/shared/components/ui/Label";
 import UploadImage from "@/shared/components/UploadImage";
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { FC, useEffect, useMemo } from "react";
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { HomeSections, PageContentVariants } from "@/entities/user/type";

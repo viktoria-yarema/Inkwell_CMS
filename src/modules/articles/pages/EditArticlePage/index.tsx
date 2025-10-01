@@ -1,4 +1,4 @@
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { SelectOption } from "@/shared/components/SelectButton";
 import QuillEditor from "@/shared/components/QuillEditor";
 import ArticleTitle from "../../components/ArticleTitle";

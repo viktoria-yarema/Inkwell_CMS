@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   AlertDialogTitle,
-} from "@/shared/components/AlertDialog";
+} from "@/shared/components/ui/AlertDialog";
 import { FC } from "react";
 
 type DeleteModalProps = {

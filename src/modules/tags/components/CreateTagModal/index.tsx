@@ -7,8 +7,8 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   AlertDialogTitle,
-} from "@/shared/components/AlertDialog";
-import { Input } from "@/shared/components/Input";
+} from "@/shared/components/ui/AlertDialog";
+import { Input } from "@/shared/components/ui/Input";
 import { FC, useState } from "react";
 import useTagStore from "../../stores/useTagStore";
 import { useCreateTagMutation } from "@/entities/tags/mutations/useCreateTagMutation";

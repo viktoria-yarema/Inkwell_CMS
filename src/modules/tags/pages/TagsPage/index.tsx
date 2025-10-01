@@ -1,6 +1,6 @@
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { getTagColumns } from "../../columns";
-import DataTable from "@/shared/components/DataTable";
+import DataTable from "@/shared/components/ui/DataTable";
 import { Plus } from "lucide-react";
 import DeleteModal from "@/shared/components/DeleteModal";
 import { useDeleteTagMutation } from "@/entities/tags/mutations/useDeleteTagMutation";

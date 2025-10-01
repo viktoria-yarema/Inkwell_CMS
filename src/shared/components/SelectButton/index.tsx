@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/components/Select";
+} from "@/shared/components/ui/Select";
 
 export type SelectOption = {
   label: string;

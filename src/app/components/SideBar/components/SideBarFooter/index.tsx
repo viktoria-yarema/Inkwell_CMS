@@ -4,7 +4,7 @@ import useUserQuery from "@/entities/user/queries/useUserQuery";
 import {
   DropdownMenu,
   DropdownMenuContent,
-} from "@/shared/components/DropdownMenu";
+} from "@/shared/components/ui/DropdownMenu";
 import { queryClient } from "@/shared/providers/ReactQueryProvider";
 import { LOGIN_PATH } from "@/shared/routes/paths";
 import { useNavigate } from "react-router-dom";

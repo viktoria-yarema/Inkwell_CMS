@@ -4,7 +4,7 @@ import PageHeader from "@/app/components/PageHeader";
 import { FC, PropsWithChildren } from "react";
 import useAuthStore from "@/entities/auth/stores/useAuthStore";
 import { LOGIN_PATH } from "@/shared/routes/paths";
-import Toaster from "@/shared/components/Toaster";
+import Toaster from "@/shared/components/ui/Toaster";
 import GlobalModals from "@/app/components/GlobalModals";
 
 const PrivateLayout: FC<PropsWithChildren> = () => {

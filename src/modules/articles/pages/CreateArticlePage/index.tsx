@@ -1,4 +1,4 @@
-import { Button } from "@/shared/components/Button";
+import { Button } from "@/shared/components/ui/Button";
 import { useState } from "react";
 import SelectButton, { SelectOption } from "@/shared/components/SelectButton";
 import { STATUS_OPTIONS } from "../../constants";

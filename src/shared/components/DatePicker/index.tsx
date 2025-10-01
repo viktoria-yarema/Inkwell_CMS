@@ -4,13 +4,13 @@ import { FC } from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { Button } from "@/shared/components/Button";
-import { Calendar } from "@/shared/components/Calendar";
+import { Button } from "@/shared/components/ui/Button";
+import { Calendar } from "@/shared/components/ui/Calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/shared/components/Popover";
+} from "@/shared/components/ui/Popover";
 
 type DatePickerProps = {
   value?: Date;

@@ -2,8 +2,8 @@ import { useUpdatePageContentMutation } from "@/entities/user/mutations/useUpdat
 import useUserQuery from "@/entities/user/queries/useUserQuery";
 import { AboutSections, PageContentVariants } from "@/entities/user/type";
 import { skillsSchema } from "@/entities/user/validators/about";
-import { Button } from "@/shared/components/Button";
-import { Input } from "@/shared/components/Input";
+import { Button } from "@/shared/components/ui/Button";
+import { Input } from "@/shared/components/ui/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import { FC, useEffect } from "react";

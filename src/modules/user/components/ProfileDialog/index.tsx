@@ -2,16 +2,16 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/shared/components/Button";
-import { Input } from "@/shared/components/Input";
-import { Label } from "@/shared/components/Label";
+import { Button } from "@/shared/components/ui/Button";
+import { Input } from "@/shared/components/ui/Input";
+import { Label } from "@/shared/components/ui/Label";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/shared/components/Dialog";
+} from "@/shared/components/ui/Dialog";
 import * as z from "zod";
 import profileSchema from "./validations";
 import { Mail, Phone, User } from "lucide-react";
