@@ -82,7 +82,7 @@ const EducationForm: FC = () => {
   };
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4 relative">
       {fields.map((field, index) => (
         <div key={field.id} className="flex gap-4">
           <Card className="bg-muted/15 py-6 px-4 max-w-4xl gap-4 flex flex-col flex-1">
@@ -170,7 +170,7 @@ const EducationForm: FC = () => {
 
       <Button
         type="button"
-        className="rounded-lg border text-blue-500 bg-transparent hover:bg-transparent hover:text-blue-700 border-blue-600 max-w-fit self-center px-4 py-2 shadow-sm  flex items-center gap-2"
+        className="rounded-lg border absolute top-0 right-0 text-blue-500 bg-transparent hover:bg-transparent hover:text-blue-700 border-blue-600 max-w-fit self-center px-4 py-2 shadow-sm  flex items-center gap-2"
         size="lg"
         onClick={addNewEducation}
       >

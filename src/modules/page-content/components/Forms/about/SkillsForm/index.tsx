@@ -50,7 +50,7 @@ const SkillsForm: FC = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     if (user && pageContent) {
-      await updatePageContent({
+      await updatePageContent({ 
         pageVariant: PageContentVariants.ABOUT,
         section: AboutSections.SKILLS,
         content: data.skills,
@@ -63,7 +63,7 @@ const SkillsForm: FC = () => {
   };
 
   return (
-    <form className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6 relative">
       <p className="text-lg font-medium text-left">Skills</p>
       <div className="flex gap-4 flex-wrap">
         {fields.map((field, index) => (
@@ -91,7 +91,7 @@ const SkillsForm: FC = () => {
       </div>
       <Button
         type="button"
-        className="rounded-lg border text-blue-500 bg-transparent hover:bg-transparent hover:text-blue-700 border-blue-600 max-w-fit self-center px-4 py-2 shadow-sm  flex items-center gap-2"
+        className="rounded-lg border absolute -top-4 right-0 text-blue-500 bg-transparent hover:bg-transparent hover:text-blue-700 border-blue-600 max-w-fit self-center px-4 py-2 shadow-sm  flex items-center gap-2"
         size="lg"
         onClick={addNewSkill}
       >

@@ -186,7 +186,7 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col h-full"
+          className="flex flex-col h-full max-h-[74dvh] overflow-y-auto"
         >
           <div className="grid gap-6 py-4">
             <div className="flex flex-col gap-4">
@@ -299,7 +299,7 @@ export const ProfileDialog = ({ open, setOpen, user }: ProfileDialogProps) => {
             <p className="text-red-500 text-sm">{errors.root.message}</p>
           )}
         </form>
-        <DialogFooter className="flex justify-end absolute bottom-4 left-4 right-4">
+        <DialogFooter className="flex justify-end ">
           <Button
             type="submit"
             onClick={handleSubmit(onSubmit)}
